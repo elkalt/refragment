@@ -1,45 +1,19 @@
 <script lang="ts">
-  import { ManualResources } from "$lib/definitions/manual-resources";
-  import { ResourceStore } from '$lib/stores/resource-store';
+  import { ManualResourceStore } from "$lib/stores/manual-resource-store";
 
   let resourceButtons: string[];
-  $: resourceButtons = Array.from(ManualResources.entries())
-    .filter(([k, v]) => $ResourceStore.get(k)?.unlocked)
+  $: resourceButtons = Array.from($ManualResourceStore.entries())
+    .filter(([k, v]) => v.unlocked)
     .map(([k, v]) => k);
-  
-  const handleClick = (name: string) => {
-    let manualResource = ManualResources.get(name);
-    
-    if (manualResource) {
-      if (manualResource.costIdentifier !== "Time") {
-        ResourceStore.decrement(manualResource.costIdentifier, manualResource.baseCost);
-      }
-      ResourceStore.increment(name, manualResource.baseProduction);
-    }
-  }
 </script>
 
+<h2>Actions</h2>
 <div class="button-container">
   {#each resourceButtons as name}
-    <button on:click={() => handleClick(name)}>
+    <button
+      on:click={() => ManualResourceStore.use(name)}
+      data-tooltip="{$ManualResourceStore.get(name)?.description}">
       { name }
     </button>
   {/each}
 </div>
-
-<style lang="scss">
-  @import "$lib/styles/variables.scss";
-  .button-container {
-    display: flex;
-    flex-direction: row;
-    align-items: left;
-    justify-content: center;
-
-    button {
-      background-color: transparent;
-      padding: 1rem;
-      cursor: pointer;
-      border: 1px solid $accent;
-    }
-  }
-</style>
