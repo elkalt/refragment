@@ -4,6 +4,7 @@ body {
   height: 100%;
   background-color: #1e1b16;
   font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
   color: white;
 }
 
@@ -12,5 +13,7 @@ button {
   border: 1px solid $accent;
   color: white;
   font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
   cursor: pointer;
 }

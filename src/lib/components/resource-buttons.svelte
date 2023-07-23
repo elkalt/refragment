@@ -36,8 +36,8 @@
 <style lang="scss">
   @import "$lib/styles/variables.scss";
   .button-container {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
 
     button {
