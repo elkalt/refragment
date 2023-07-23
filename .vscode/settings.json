@@ -1,0 +1,3 @@
+{
+  "svelte.plugin.css.globals": "/src/lib/styles/variable.scss"
+}

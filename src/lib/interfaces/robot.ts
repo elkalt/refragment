@@ -1,8 +1,9 @@
-export interface ManualResource {
+export interface Robot {
   products: string[];
   baseProduction: number[];
+  baseProductionInterval: number;
+  baseProductionTime: number;
   consumed: string[];
   baseCost: number[];
-  cooldown: number;
   unlocked: boolean;
 }
