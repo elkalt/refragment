@@ -10,24 +10,10 @@
 <h2>Actions</h2>
 <div class="button-container">
   {#each resourceButtons as name}
-    <button on:click={() => ManualResourceStore.use(name)}>
+    <button
+      on:click={() => ManualResourceStore.use(name)}
+      data-tooltip="{$ManualResourceStore.get(name)?.description}">
       { name }
     </button>
   {/each}
 </div>
-
-<style lang="scss">
-  @import "$lib/styles/variables.scss";
-  .button-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-
-    button {
-      background-color: transparent;
-      padding: 1rem;
-      cursor: pointer;
-      border: 1px solid $accent;
-    }
-  }
-</style>

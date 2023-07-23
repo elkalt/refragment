@@ -4,6 +4,7 @@ export let Robots: Map<string, Robot> = new Map<string, Robot>([
   [
     "Coal Miner",
     {
+      description: "Mine 1 coal every 5 seconds for 60 seconds",
       products: ["Coal"],
       baseProduction: [2],
       baseProductionInterval: 5,

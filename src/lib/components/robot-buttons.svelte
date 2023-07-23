@@ -13,7 +13,9 @@
 <h2>Robots</h2>
 <div class="button-container">
   {#each resourceButtons as name}
-    <button on:click={() => RobotStore.use(name)}>
+    <button
+      on:click={() => RobotStore.use(name)}
+      data-tooltip="{$RobotStore.get(name)?.description}">
       { name }
     </button>
   {/each}
