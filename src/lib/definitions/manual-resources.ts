@@ -7,7 +7,8 @@ export let ManualResources: Map<string, ManualResource> = new Map([
       products: ["Energy"],
       baseProduction: [1],
       consumed: ["Time"],
-      baseCost: [5]
+      baseCost: [5],
+      unlocked: true
     }
   ],
   [
@@ -16,7 +17,8 @@ export let ManualResources: Map<string, ManualResource> = new Map([
       products: ["Coal", "Iron Ore"],
       baseProduction: [3, 2],
       consumed: ["Energy"],
-      baseCost: [5]
+      baseCost: [5],
+      unlocked: false
     }
   ],
 ]);
