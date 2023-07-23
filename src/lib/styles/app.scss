@@ -1,0 +1,16 @@
+@import 'variables.scss';
+
+body {
+  height: 100%;
+  background-color: #1e1b16;
+  font-family: 'Courier New', Courier, monospace;
+  color: white;
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid $accent;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+  cursor: pointer;
+}
