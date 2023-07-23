@@ -1,5 +1,6 @@
 export interface ManualResource {
-  costIdentifier: string;
-  baseCost: number;
-  baseProduction: number;
+  products: string[];
+  baseProduction: number[];
+  consumed: string[];
+  baseCost: number[];
 }
