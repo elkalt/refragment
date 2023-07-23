@@ -4,17 +4,28 @@
 
   let resourceButtons: string[];
   $: resourceButtons = Array.from(ManualResources.entries())
-    .filter(([k, v]) => $ResourceStore.get(k)?.unlocked)
+    .filter(([k, v]) => {
+      for (let product of v.products) {
+        if (!$ResourceStore.get(product)?.unlocked) {
+          return false;
+        }
+      }
+      return true;
+    })
     .map(([k, v]) => k);
   
   const handleClick = (name: string) => {
     let manualResource = ManualResources.get(name);
-    
+
     if (manualResource) {
-      if (manualResource.costIdentifier !== "Time") {
-        ResourceStore.decrement(manualResource.costIdentifier, manualResource.baseCost);
+      for (let i = 0; i < manualResource.consumed.length; i++) {
+        if (manualResource.consumed[i] !== "Time") {
+          ResourceStore.decrement(manualResource.consumed[i], manualResource.baseCost[i]);
+        }
       }
-      ResourceStore.increment(name, manualResource.baseProduction);
+      for (let i = 0; i < manualResource.products.length; i++) {
+        ResourceStore.increment(manualResource.products[i], manualResource.baseProduction[i]);
+      }
     }
   }
 </script>
