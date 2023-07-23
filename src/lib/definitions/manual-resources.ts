@@ -15,7 +15,7 @@ export let ManualResources: Map<string, ManualResource> = new Map([
   [
     "Mine",
     {
-      description: "Power a mine to produce 3 coal and 2 iron ore",
+      description: "Power a mine with 5 energy to produce 3 coal and 2 iron ore",
       products: ["Coal", "Iron Ore"],
       baseProduction: [3, 2],
       consumed: ["Energy"],
