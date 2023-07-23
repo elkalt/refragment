@@ -14,4 +14,17 @@ export let Robots: Map<string, Robot> = new Map<string, Robot>([
       unlocked: true
     }
   ],
+  [
+    "Iron Miner",
+    {
+      description: "Build a miner with 10 energy and 5 iron to mine 1 iron every 5 seconds for 60 seconds",
+      products: ["Iron"],
+      baseProduction: [2],
+      baseProductionInterval: 5,
+      baseProductionTime: 60,
+      consumed: ["Energy", "Iron"],
+      baseCost: [10, 5],
+      unlocked: true
+    }
+  ],
 ]);
