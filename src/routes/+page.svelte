@@ -54,11 +54,12 @@
   display: grid;
   padding-top: 2rem;
   grid-template-columns: 1fr 0.25fr 2fr 0.25fr 1fr;
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: 1fr;
   grid-column-gap: 1rem;
   grid-row-gap: 1rem;
 
-  .resources { grid-area: 1 / 1 / 6 / 2; }
+  .resources { grid-area: 1 / 1 / 3 / 2; }
   .main-area { grid-area: 1 / 3 / 2 / 4; }
+  // .right { grid-area: 1 / 5 / 2 / 6; }
 }
 </style>
