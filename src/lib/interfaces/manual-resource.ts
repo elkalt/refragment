@@ -3,6 +3,5 @@ export interface ManualResource {
   baseProduction: number[];
   consumed: string[];
   baseCost: number[];
-  cooldown: number;
   unlocked: boolean;
 }

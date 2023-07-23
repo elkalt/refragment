@@ -8,7 +8,6 @@ export let ManualResources: Map<string, ManualResource> = new Map([
       baseProduction: [1],
       consumed: ["Time"],
       baseCost: [5],
-      cooldown: 0,
       unlocked: true
     }
   ],
@@ -19,7 +18,6 @@ export let ManualResources: Map<string, ManualResource> = new Map([
       baseProduction: [3, 2],
       consumed: ["Energy"],
       baseCost: [5],
-      cooldown: 0,
       unlocked: true
     }
   ],
@@ -30,7 +28,6 @@ export let ManualResources: Map<string, ManualResource> = new Map([
       baseProduction: [1],
       consumed: ["Coal", "Iron Ore"],
       baseCost: [5, 5],
-      cooldown: 0,
       unlocked: true
     }
   ]
