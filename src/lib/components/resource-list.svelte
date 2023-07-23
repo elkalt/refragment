@@ -24,8 +24,8 @@
     align-items: left;
     justify-content: center;
     padding: 1rem;
-    padding-bottom: 0;
     border: 1px solid $accent;
+    gap: 1rem;
 
     .resource-line-item {
       display: flex;
@@ -35,7 +35,6 @@
       border-bottom: 1px solid $accent-light;
       width: 100%;
       cursor: default;
-      margin-bottom: 1rem;
 
       .resource-name {
         margin-right: 1rem;

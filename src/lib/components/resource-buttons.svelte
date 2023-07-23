@@ -42,9 +42,8 @@
   @import "$lib/styles/variables.scss";
   .button-container {
     display: flex;
-    flex-direction: row;
-    align-items: left;
-    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
 
     button {
       background-color: transparent;
