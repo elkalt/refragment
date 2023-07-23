@@ -1,21 +1,16 @@
 <script lang="ts">
-  import { ManualResources } from "$lib/definitions/manual-resources";
+  import { ManualResourceStore } from "$lib/stores/manual-resource-store";
   import { ResourceStore } from '$lib/stores/resource-store';
 
   let resourceButtons: string[];
-  $: resourceButtons = Array.from(ManualResources.entries())
+  $: resourceButtons = Array.from($ManualResourceStore.entries())
     .filter(([k, v]) => {
-      for (let product of v.products) {
-        if (!$ResourceStore.get(product)?.unlocked) {
-          return false;
-        }
-      }
-      return true;
+      return v.unlocked;
     })
     .map(([k, v]) => k);
   
   const handleClick = (name: string) => {
-    let manualResource = ManualResources.get(name);
+    let manualResource = $ManualResourceStore.get(name);
 
     if (manualResource) {
       for (let i = 0; i < manualResource.consumed.length; i++) {

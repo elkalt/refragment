@@ -3,4 +3,5 @@ export interface ManualResource {
   baseProduction: number[];
   consumed: string[];
   baseCost: number[];
+  unlocked: boolean;
 }

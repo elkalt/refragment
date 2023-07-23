@@ -12,7 +12,7 @@
 <style lang="scss">
 .content-container {
   display: grid;
-  grid-template-columns: 1fr 0.5fr repeat(2, 1fr) 0.5fr 1fr;
+  grid-template-columns: 1fr 0.25fr 0.5fr 1fr 0.25fr 1fr;
   grid-template-rows: repeat(2, 1fr);
   grid-column-gap: 1rem;
   grid-row-gap: 1rem;
