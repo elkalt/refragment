@@ -1,9 +1,8 @@
 <script lang="ts">
-  import type { Resource } from "$lib/interfaces/resource";
-  import { Resources } from '$lib/stores/resources';
+  import { ResourceStore } from '$lib/stores/resource-store';
 
   let unlockedResources: string[];
-  $: unlockedResourceKeys = Array.from($Resources.entries())
+  $: unlockedResourceKeys = Array.from($ResourceStore.entries())
     .filter(([k, v]) => v.unlocked)
     .map(([k, v]) => k);
 </script>
@@ -12,7 +11,7 @@
   {#each unlockedResourceKeys as name}
     <div class="resource-line-item">
       <div class="resource-name">{ name }</div>
-      <div class="resource-count">{ $Resources.get(name)?.amount }</div>
+      <div class="resource-count">{ $ResourceStore.get(name)?.amount }</div>
     </div>
   {/each}
 </div>

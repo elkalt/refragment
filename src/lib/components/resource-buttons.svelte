@@ -1,11 +1,10 @@
 <script lang="ts">
-  import { ManualResources } from "$lib/stores/manual-resources";
-  import { Resources } from '$lib/stores/resources';
-
+  import { ManualResources } from "$lib/definitions/manual-resources";
+  import { ResourceStore } from '$lib/stores/resource-store';
 
   let resourceButtons: string[];
   $: resourceButtons = Array.from(ManualResources.entries())
-    .filter(([k, v]) => $Resources.get(k)?.unlocked)
+    .filter(([k, v]) => $ResourceStore.get(k)?.unlocked)
     .map(([k, v]) => k);
   
   const handleClick = (name: string) => {
@@ -13,9 +12,9 @@
     
     if (manualResource) {
       if (manualResource.costIdentifier !== "Time") {
-        Resources.decrement(manualResource.costIdentifier, manualResource.baseCost);
+        ResourceStore.decrement(manualResource.costIdentifier, manualResource.baseCost);
       }
-      Resources.increment(name, manualResource.baseCost);
+      ResourceStore.increment(name, manualResource.baseProduction);
     }
   }
 </script>
