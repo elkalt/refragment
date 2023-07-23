@@ -2,7 +2,7 @@ import type { ManualResource } from '$lib/interfaces/manual-resource';
 
 export let ManualResources: Map<string, ManualResource> = new Map([
   [
-    "Generator",
+    "Generate",
     {
       products: ["Energy"],
       baseProduction: [1],
@@ -18,7 +18,17 @@ export let ManualResources: Map<string, ManualResource> = new Map([
       baseProduction: [3, 2],
       consumed: ["Energy"],
       baseCost: [5],
-      unlocked: false
+      unlocked: true
     }
   ],
+  [
+    "Smelt",
+    {
+      products: ["Iron"],
+      baseProduction: [1],
+      consumed: ["Coal", "Iron Ore"],
+      baseCost: [5, 5],
+      unlocked: true
+    }
+  ]
 ]);

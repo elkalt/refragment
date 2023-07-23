@@ -1,33 +1,16 @@
 <script lang="ts">
   import { ManualResourceStore } from "$lib/stores/manual-resource-store";
-  import { ResourceStore } from '$lib/stores/resource-store';
 
   let resourceButtons: string[];
   $: resourceButtons = Array.from($ManualResourceStore.entries())
-    .filter(([k, v]) => {
-      return v.unlocked;
-    })
+    .filter(([k, v]) => v.unlocked)
     .map(([k, v]) => k);
-  
-  const handleClick = (name: string) => {
-    let manualResource = $ManualResourceStore.get(name);
-
-    if (manualResource) {
-      for (let i = 0; i < manualResource.consumed.length; i++) {
-        if (manualResource.consumed[i] !== "Time") {
-          ResourceStore.decrement(manualResource.consumed[i], manualResource.baseCost[i]);
-        }
-      }
-      for (let i = 0; i < manualResource.products.length; i++) {
-        ResourceStore.increment(manualResource.products[i], manualResource.baseProduction[i]);
-      }
-    }
-  }
 </script>
 
+<h2>Actions</h2>
 <div class="button-container">
   {#each resourceButtons as name}
-    <button on:click={() => handleClick(name)}>
+    <button on:click={() => ManualResourceStore.use(name)}>
       { name }
     </button>
   {/each}

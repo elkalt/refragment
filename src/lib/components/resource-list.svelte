@@ -34,7 +34,6 @@
       justify-content: space-between;
       border-bottom: 1px solid $accent-light;
       width: 100%;
-      cursor: default;
 
       .resource-name {
         margin-right: 1rem;

@@ -1,15 +1,15 @@
 <script lang="ts">
   import '$lib/styles/app.scss'
   import ResourceList from '$lib/components/resource-list.svelte';
-  import ResourceButtons from '$lib/components/resource-buttons.svelte';
-  import Replication from '$lib/components/replication.svelte';
+  import Fabrication from '$lib/components/fabrication.svelte';
+  import ControlRoom from '$lib/components/control-room.svelte';
 
   let modules = [
-    "Main",
-    "Replication"
+    "Control Room",
+    "Fabrication"
   ]
 
-  let currentModule = "Main"
+  let currentModule = "Control Room"
 </script>
 
 <div class=header>
@@ -22,11 +22,11 @@
   <div class="resources"><ResourceList /></div>
   
   <div class="main-area">
-    {#if currentModule === "Main"}
-      <ResourceButtons />
+    {#if currentModule === "Control Room"}
+      <ControlRoom />
     {/if}
-    {#if currentModule === "Replication"}
-      <Replication />
+    {#if currentModule === "Fabrication"}
+      <Fabrication />
     {/if}
   </div>
 </div>
@@ -60,6 +60,6 @@
 
   .resources { grid-area: 1 / 1 / 3 / 2; }
   .main-area { grid-area: 1 / 3 / 2 / 4; }
-  // .right { grid-area: 1 / 5 / 2 / 6; }
+  // .upgrades { grid-area: 1 / 5 / 2 / 6; }
 }
 </style>
