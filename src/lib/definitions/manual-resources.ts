@@ -4,33 +4,36 @@ export let ManualResources: Map<string, ManualResource> = new Map([
   [
     "Generate",
     {
-      description: "Generate 1 energy",
+      description: "Hand crank the generator",
       products: ["Energy"],
       baseProduction: [1],
-      consumed: ["Time"],
+      inputs: ["Time"],
       baseCost: [5],
+      disabled: false,
       unlocked: true
     }
   ],
   [
     "Mine",
     {
-      description: "Power a mine with 5 energy to produce 3 coal and 2 iron ore",
+      description: "Power a stationary mine",
       products: ["Coal", "Iron Ore"],
       baseProduction: [3, 2],
-      consumed: ["Energy"],
+      inputs: ["Energy"],
       baseCost: [5],
+      disabled: false,
       unlocked: true
     }
   ],
   [
     "Smelt",
     {
-      description: "Smelt 1 coal and 1 iron ore into 1 iron",
+      description: "Power an iron smelter",
       products: ["Iron"],
       baseProduction: [1],
-      consumed: ["Coal", "Iron Ore"],
-      baseCost: [5, 5],
+      inputs: ["Coal", "Iron Ore"],
+      baseCost: [5, 4],
+      disabled: false,
       unlocked: true
     }
   ]

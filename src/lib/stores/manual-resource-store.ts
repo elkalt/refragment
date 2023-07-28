@@ -17,9 +17,18 @@ function createManualResourceStore() {
       let manualResource = ManualResources.get(resource);
       
       if (manualResource) {
-        for (let i = 0; i < manualResource.consumed.length; i++) {
-          if (manualResource.consumed[i] !== "Time") {
-            ResourceStore.decrement(manualResource.consumed[i], manualResource.baseCost[i]);
+        let i = manualResource.inputs.indexOf("Time");
+        if (i !== -1) {
+          manualResource.disabled = true;
+          update(() => ManualResources);
+          setTimeout(() => {
+            manualResource!.disabled = false;
+            update(() => ManualResources);
+          }, manualResource.baseCost[i] * 1000);
+        }
+        for (let i = 0; i < manualResource.inputs.length; i++) {
+          if (manualResource.inputs[i] !== "Time") {
+            ResourceStore.decrement(manualResource.inputs[i], manualResource.baseCost[i]);
           }
         }
         for (let i = 0; i < manualResource.products.length; i++) {

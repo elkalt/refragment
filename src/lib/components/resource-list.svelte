@@ -24,7 +24,7 @@
     align-items: left;
     justify-content: center;
     padding: 1rem;
-    border: 1px solid $accent;
+    border: 1px solid var(--accent-dark);
     gap: 1rem;
 
     .resource-line-item {
@@ -32,7 +32,7 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid $accent-light;
+      border-bottom: 1px solid var(--accent);
       width: 100%;
 
       .resource-name {
