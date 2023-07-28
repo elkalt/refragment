@@ -4,12 +4,12 @@ export let Robots: Map<string, Robot> = new Map<string, Robot>([
   [
     "Coal Miner",
     {
-      description: "Build a miner with 10 energy and 5 iron to mine 1 coal every 5 seconds for 60 seconds",
+      description: "Build a coal miner",
       products: ["Coal"],
       baseProduction: [2],
       baseProductionInterval: 5,
       baseProductionTime: 60,
-      consumed: ["Energy", "Iron"],
+      inputs: ["Energy", "Iron"],
       baseCost: [10, 5],
       unlocked: true
     }
@@ -17,12 +17,12 @@ export let Robots: Map<string, Robot> = new Map<string, Robot>([
   [
     "Iron Miner",
     {
-      description: "Build a miner with 10 energy and 5 iron to mine 1 iron every 5 seconds for 60 seconds",
-      products: ["Iron"],
+      description: "Build an iron ore miner",
+      products: ["Iron Ore"],
       baseProduction: [2],
       baseProductionInterval: 5,
       baseProductionTime: 60,
-      consumed: ["Energy", "Iron"],
+      inputs: ["Energy", "Iron"],
       baseCost: [10, 5],
       unlocked: true
     }

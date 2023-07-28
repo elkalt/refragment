@@ -4,7 +4,7 @@ export interface Robot {
   baseProduction: number[];
   baseProductionInterval: number;
   baseProductionTime: number;
-  consumed: string[];
+  inputs: string[];
   baseCost: number[];
   unlocked: boolean;
 }

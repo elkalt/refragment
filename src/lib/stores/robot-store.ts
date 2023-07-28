@@ -18,9 +18,9 @@ function createRobotStore() {
       let robotResource = Robots.get(robot);
       
       if (robotResource) {
-        for (let i = 0; i < robotResource.consumed.length; i++) {
-          if (robotResource.consumed[i] !== "Time") {
-            ResourceStore.decrement(robotResource.consumed[i], robotResource.baseCost[i]);
+        for (let i = 0; i < robotResource.inputs.length; i++) {
+          if (robotResource.inputs[i] !== "Time") {
+            ResourceStore.decrement(robotResource.inputs[i], robotResource.baseCost[i]);
           }
         }
         let elapsedTime = 0;

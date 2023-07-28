@@ -2,7 +2,7 @@ export interface ManualResource {
   description: string;
   products: string[];
   baseProduction: number[];
-  consumed: string[];
+  inputs: string[];
   baseCost: number[];
   unlocked: boolean;
 }
