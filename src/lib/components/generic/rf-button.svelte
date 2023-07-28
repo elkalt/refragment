@@ -29,6 +29,10 @@
 	}
 
 	async function handleClick() {
+		if (disabled) {
+			return;
+		}
+
 		await new Promise<void>(resolve => { 
 			dispatch("click");
 			resolve();
@@ -62,11 +66,9 @@
 	role="tooltip"
 	on:focus={() => isHovered = true}
 	on:mouseover={mouseOver}
-	on:mouseleave={mouseLeave}
-	class="tooltip-button-container">
+	on:mouseleave={mouseLeave}>
 	<button
-		on:click={() => handleClick()}
-		disabled={disabled}>
+		on:click={() => handleClick()}>
 		{name}
 	</button>
 	<div style="width: {width}%" class="progress-bar"></div>
