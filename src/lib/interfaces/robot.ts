@@ -6,5 +6,6 @@ export interface Robot {
   baseProductionTime: number;
   inputs: string[];
   baseCost: number[];
+  disabled: boolean;
   unlocked: boolean;
 }

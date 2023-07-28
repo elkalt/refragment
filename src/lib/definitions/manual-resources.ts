@@ -9,6 +9,7 @@ export let ManualResources: Map<string, ManualResource> = new Map([
       baseProduction: [1],
       inputs: ["Time"],
       baseCost: [5],
+      disabled: false,
       unlocked: true
     }
   ],
@@ -20,6 +21,7 @@ export let ManualResources: Map<string, ManualResource> = new Map([
       baseProduction: [3, 2],
       inputs: ["Energy"],
       baseCost: [5],
+      disabled: false,
       unlocked: true
     }
   ],
@@ -30,7 +32,8 @@ export let ManualResources: Map<string, ManualResource> = new Map([
       products: ["Iron"],
       baseProduction: [1],
       inputs: ["Coal", "Iron Ore"],
-      baseCost: [5, 5],
+      baseCost: [5, 4],
+      disabled: false,
       unlocked: true
     }
   ]

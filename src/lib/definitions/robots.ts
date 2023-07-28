@@ -11,6 +11,7 @@ export let Robots: Map<string, Robot> = new Map<string, Robot>([
       baseProductionTime: 60,
       inputs: ["Energy", "Iron"],
       baseCost: [10, 5],
+      disabled: false,
       unlocked: true
     }
   ],
@@ -24,6 +25,7 @@ export let Robots: Map<string, Robot> = new Map<string, Robot>([
       baseProductionTime: 60,
       inputs: ["Energy", "Iron"],
       baseCost: [10, 5],
+      disabled: false,
       unlocked: true
     }
   ],
