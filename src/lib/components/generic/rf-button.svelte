@@ -3,6 +3,7 @@
   export let tooltip: string = '';
 	export let inputs: {input: string, amount: number}[];
 	export let products: {output: string, amount: number}[];
+	export let sustain: {interval: number, totalTime: number} | undefined = undefined;
 	let isHovered = false;
 	let x: number;
 	let y: number;
@@ -36,15 +37,21 @@
 			{tooltip}
 			<hr>
 			<div class="recipe-container">
-				<div class="recipe-column-container">
+				<div class="recipe-column-container input">
 					{#each inputs as input}
 						<div>{input.amount} {input.input}</div>
 					{/each}
 				</div>
-				->
 				<div class="recipe-column-container">
+					<div>-></div>
+					{#if sustain}
+						<div class="sustain">/{sustain.interval}s</div>
+						<div class="sustain">{sustain.totalTime}s</div>
+					{/if}
+				</div>
+				<div class="recipe-column-container output">
 					{#each products as product}
-						<div>{product.amount} {product.output}</div>
+						<div>{product.output} {product.amount}</div>
 					{/each}
 				</div>
 			</div>
@@ -65,15 +72,29 @@
 			padding: 1rem;
 
 			.recipe-container {
-				display: flex;
-				flex-direction: row;
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
 				justify-content: space-between;
 				gap: 0.5rem;
 				
 				.recipe-column-container {
 					display: flex;
 					flex-direction: column;
+					text-align: center;
+
+					.sustain {
+						font-size: 0.7rem;
+					}
+				}
+
+				.input {
 					gap: 0.5rem;
+					text-align: left;
+				}
+
+				.output {
+					gap: 0.5rem;
+					text-align: right;
 				}
 			}
 		}

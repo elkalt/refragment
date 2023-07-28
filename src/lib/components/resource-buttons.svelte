@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { ManualResource } from "$lib/interfaces/manual-resource";
   import { ManualResourceStore } from "$lib/stores/manual-resource-store";
-  import Button from "./generic/action-button.svelte";
+  import Button from "./generic/rf-button.svelte";
 
   let resourceButtons: string[];
   $: resourceButtons = Array.from($ManualResourceStore.entries())
