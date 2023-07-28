@@ -6,31 +6,32 @@
 	let isHovered = false;
 	let x: number;
 	let y: number;
+	let width: number;
 	
 	function mouseOver(event: MouseEvent) {
+		let button = event.target as HTMLButtonElement;
+		let buttonRect = button.getBoundingClientRect();
+
+		width = buttonRect.width;
+		x = buttonRect.left;
+		y = buttonRect.top + (buttonRect.height * 1.2);
 		isHovered = true;
-		x = event.pageX + 5;
-		y = event.pageY + 5;
 	}
-	function mouseMove(event: MouseEvent) {
-		x = event.pageX + 5;
-		y = event.pageY + 5;
-	}
-	function mouseLeave() {
+	function mouseLeave(event: MouseEvent) {
 		isHovered = false;
 	}
 </script>
 
-<div class="tooltip-button-container">
-	<button
-		on:focus={() => isHovered = true}
-		on:mouseover={mouseOver}
-		on:mouseleave={mouseLeave}
-		on:mousemove={mouseMove}>
-		{ name }
-	</button>
+<button
+	on:click
+	on:focus={() => isHovered = true}
+	on:mouseover={mouseOver}
+	on:mouseleave={mouseLeave}>
+	{ name }
+</button>
 
-	{#if isHovered}
+{#if isHovered}
+	<div style="top: {y}px; left: {x}px; width: {width}px;" class="tooltip-container">
 		<div class="tooltip">
 			{tooltip}
 			<hr>
@@ -48,23 +49,20 @@
 				</div>
 			</div>
 		</div>
-	{/if}
-</div>
+	</div>
+{/if}
 
 <style lang="scss">
 	@import '/src/lib/styles/variables.scss';
-	.tooltip-button-container {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		gap: 0.5rem;
+	.tooltip-container {
+		position: absolute;
+		background-color: $background;
+		border: 1px solid $accent;
+		font-weight: 400;
+		font-size: 0.9rem;
 
 		.tooltip {
-			background-color: $background;
-			border: 1px solid $accent;
 			padding: 1rem;
-			font-weight: 400;
-			font-size: 0.9rem;
 
 			.recipe-container {
 				display: flex;
