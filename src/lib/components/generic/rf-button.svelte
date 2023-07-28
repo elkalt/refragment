@@ -1,38 +1,79 @@
 <script lang="ts">
-	export let name: string = '';
-  export let tooltip: string = '';
+	import { createEventDispatcher } from "svelte";
+
+	export let name: string;
+  export let tooltip: string;
 	export let inputs: {input: string, amount: number}[];
 	export let products: {output: string, amount: number}[];
 	export let sustain: {interval: number, totalTime: number} | undefined = undefined;
+	export let disabled: boolean;
+
+	let dispatch = createEventDispatcher();
+
 	let isHovered = false;
-	let x: number;
-	let y: number;
-	let width: number;
-	
+	let tooltipX: number;
+	let tooltipY: number;
+	let width: number = 0;
+
 	function mouseOver(event: MouseEvent) {
 		let button = event.target as HTMLButtonElement;
 		let buttonRect = button.getBoundingClientRect();
 
-		width = buttonRect.width;
-		x = buttonRect.left;
-		y = buttonRect.top + (buttonRect.height * 1.2);
+		tooltipX = buttonRect.left;
+		tooltipY = buttonRect.top + (buttonRect.height * 1.2);
 		isHovered = true;
 	}
+
 	function mouseLeave() {
 		isHovered = false;
 	}
+
+	async function handleClick() {
+		await new Promise<void>(resolve => { 
+			dispatch("click");
+			resolve();
+		});
+
+		if (disabled) {
+			let timeout: number = -1;
+			inputs.forEach(input => {
+				if (input.input === "Time") {
+					timeout = input.amount;
+					return;
+				}
+			});
+
+			if (timeout !== -1) {
+				let startTime = Date.now();
+				let interval = setInterval(() => {
+					width  = 100 - ((Date.now() - startTime) / (timeout * 1000)) * 100;
+
+					if (width <= 0) {
+						width = 0;
+						clearInterval(interval);
+					}
+				}, 10);
+			}
+		}
+	}
 </script>
 
-<button
-	on:click
+<div
+	role="tooltip"
 	on:focus={() => isHovered = true}
 	on:mouseover={mouseOver}
-	on:mouseleave={mouseLeave}>
-	{ name }
-</button>
+	on:mouseleave={mouseLeave}
+	class="tooltip-button-container">
+	<button
+		on:click={() => handleClick()}
+		disabled={disabled}>
+		{name}
+	</button>
+	<div style="width: {width}%" class="progress-bar"></div>
+</div>
 
 {#if isHovered}
-	<div style="top: {y}px; left: {x}px; width: {width}px;" class="tooltip-container">
+	<div style="top: {tooltipY}px; left: {tooltipX}px;" class="tooltip-container">
 		<div class="tooltip">
 			{tooltip}
 			<hr>
@@ -61,6 +102,11 @@
 
 <style lang="scss">
 	@import '/src/lib/styles/variables.scss';
+	.progress-bar {
+		height: 0.2rem;
+		background-color: $accent;
+	}
+
 	.tooltip-container {
 		position: absolute;
 		background-color: $background;

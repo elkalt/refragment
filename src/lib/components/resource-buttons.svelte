@@ -36,6 +36,7 @@
         tooltip={resourceData.description}
         inputs={mapInputs(resourceData)}
         products={mapProducts(resourceData)}
+        disabled={resourceData.disabled}
         />
     {/if}
   {/each}

@@ -39,6 +39,7 @@
         tooltip={resourceData.description}
         inputs={mapInputs(resourceData)}
         products={mapProducts(resourceData)}
+        disabled={resourceData.disabled}
         sustain={{interval: resourceData.baseProductionInterval, totalTime: resourceData.baseProductionTime}}
         />
     {/if}

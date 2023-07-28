@@ -1,7 +1,6 @@
 import { Robots } from "$lib/definitions/robots";
 import { writable } from "svelte/store";
 import { ResourceStore } from "./resource-store";
-import type { Robot } from "$lib/interfaces/robot";
 
 function createRobotStore() {
   let {subscribe, update} = writable(Robots);
@@ -18,6 +17,15 @@ function createRobotStore() {
       let robotResource = Robots.get(robot);
       
       if (robotResource) {
+        let i = robotResource.inputs.indexOf("Time");
+        if (i !== -1) {
+          robotResource.disabled = true;
+          update(() => Robots);
+          setTimeout(() => {
+            robotResource!.disabled = false;
+            update(() => Robots);
+          }, robotResource.baseCost[i] * 1000);
+        }
         for (let i = 0; i < robotResource.inputs.length; i++) {
           if (robotResource.inputs[i] !== "Time") {
             ResourceStore.decrement(robotResource.inputs[i], robotResource.baseCost[i]);
