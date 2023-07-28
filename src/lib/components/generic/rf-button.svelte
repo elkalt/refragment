@@ -13,7 +13,9 @@
 	let isHovered = false;
 	let tooltipX: number;
 	let tooltipY: number;
-	let width: number = 0;
+	let tooltipWidth: number;
+
+	let progressWidth: number = 0;
 
 	function mouseOver(event: MouseEvent) {
 		let button = event.target as HTMLButtonElement;
@@ -21,6 +23,7 @@
 
 		tooltipX = buttonRect.left;
 		tooltipY = buttonRect.top + (buttonRect.height * 1.2);
+		tooltipWidth = buttonRect.width;
 		isHovered = true;
 	}
 
@@ -50,10 +53,10 @@
 			if (timeout !== -1) {
 				let startTime = Date.now();
 				let interval = setInterval(() => {
-					width  = 100 - ((Date.now() - startTime) / (timeout * 1000)) * 100;
+					progressWidth  = 100 - ((Date.now() - startTime) / (timeout * 1000)) * 100;
 
-					if (width <= 0) {
-						width = 0;
+					if (progressWidth <= 0) {
+						progressWidth = 0;
 						clearInterval(interval);
 					}
 				}, 10);
@@ -68,14 +71,15 @@
 	on:mouseover={mouseOver}
 	on:mouseleave={mouseLeave}>
 	<button
+		style="{disabled ? 'background-color: var(--background-dark); color: var(--accent-dark)' : 'background-color: transparent;'}"
 		on:click={() => handleClick()}>
 		{name}
 	</button>
-	<div style="width: {width}%" class="progress-bar"></div>
+	<div style="width: {progressWidth}%" class="progress-bar"></div>
 </div>
 
 {#if isHovered}
-	<div style="top: {tooltipY}px; left: {tooltipX}px;" class="tooltip-container">
+	<div style="top: {tooltipY}px; left: {tooltipX}px; width: {tooltipWidth};" class="tooltip-container">
 		<div class="tooltip">
 			{tooltip}
 			<hr>
@@ -106,13 +110,13 @@
 	@import '/src/lib/styles/variables.scss';
 	.progress-bar {
 		height: 0.2rem;
-		background-color: $accent;
+		background-color: var(--accent);
 	}
 
 	.tooltip-container {
 		position: absolute;
-		background-color: $background;
-		border: 1px solid $accent;
+		background-color: var(--background);
+		border: 1px solid var(--accent);
 		font-weight: 400;
 		font-size: 0.9rem;
 
@@ -124,7 +128,6 @@
 				grid-template-columns: repeat(3, 1fr);
 				justify-content: space-between;
 				gap: 0.5rem;
-				
 
 				.recipe-column-container {
 					display: flex;

@@ -1,7 +1,9 @@
 <script lang="ts">
   import '$lib/styles/app.scss'
-  import { RobotStore } from "$lib/stores/robot-store";
   import type { Robot } from '$lib/interfaces/robot';
+  import type { Resource } from '$lib/interfaces/resource';
+  import { RobotStore } from "$lib/stores/robot-store";
+  import { ResourceStore } from '$lib/stores/resource-store';
   import Button from "./generic/rf-button.svelte";
 
   let resourceButtons: string[];
@@ -10,6 +12,13 @@
       return v.unlocked;
     })
     .map(([k, v]) => k);
+  
+  let resourceInputSatisfaction: Map<string, boolean> = new Map<string, boolean>();
+  $: resourceInputSatisfaction = new Map<string, boolean>(
+    Array.from($RobotStore.entries())
+      .filter(([k, v]) => v.unlocked)
+      .map(([k, v]) => [k, areInputsFufilled(v, $ResourceStore)])
+    );
 
   function mapInputs(resource: Robot): { input: string; amount: number }[] {
     let result: { input: string; amount: number }[] = [];
@@ -26,6 +35,21 @@
     }
     return result;
   }
+
+  function areInputsFufilled(resource: Robot, listener: Map<string, Resource>): boolean {
+    // this takes the resource store as an input so that the reactive declaration will update when it changes
+    let result = true;
+    for (let i = 0; i < resource.inputs.length; i++) {
+      if (resource.inputs[i] === "Time") {
+        continue;
+      }
+      if (resource.baseCost[i] > $ResourceStore.get(resource.inputs[i])!.amount) {
+        result = false;
+        break;
+      }
+    }
+    return result;
+  }
 </script>
 
 <h2>Robots</h2>
@@ -39,13 +63,9 @@
         tooltip={resourceData.description}
         inputs={mapInputs(resourceData)}
         products={mapProducts(resourceData)}
-        disabled={resourceData.disabled}
+        disabled={resourceData.disabled || resourceInputSatisfaction.get(name)?.valueOf() === false}
         sustain={{interval: resourceData.baseProductionInterval, totalTime: resourceData.baseProductionTime}}
         />
     {/if}
   {/each}
 </div>
-
-<style lang="scss">
-
-</style>

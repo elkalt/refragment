@@ -40,12 +40,12 @@
   align-items: center;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid $accent;
+  border-bottom: 1px solid var(--accent);
 
   .module {
     font-size: 1.1rem;
     border: 0px;
-    border-bottom: 1px solid $accent-light;
+    border-bottom: 1px solid var(--accent)-light;
     cursor: pointer;
   }
 }
