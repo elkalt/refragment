@@ -71,7 +71,8 @@
 	on:mouseover={mouseOver}
 	on:mouseleave={mouseLeave}>
 	<button
-		style="{disabled ? 'background-color: var(--background-dark); color: var(--accent-dark)' : 'background-color: transparent;'}"
+		style="{disabled ? 'background-color: var(--background-dark); color: var(--accent-dark); cursor: default;' : ''}
+			{!disabled && isHovered ? 'background-color: var(--background-light);' : ''}"
 		on:click={() => handleClick()}>
 		{name}
 	</button>
@@ -79,7 +80,7 @@
 </div>
 
 {#if isHovered}
-	<div style="top: {tooltipY}px; left: {tooltipX}px; width: {tooltipWidth};" class="tooltip-container">
+	<div style="top: {tooltipY}px; left: {tooltipX}px; width: {tooltipWidth}px;" class="tooltip-container">
 		<div class="tooltip">
 			{tooltip}
 			<hr>

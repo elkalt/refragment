@@ -43,9 +43,10 @@
   border-bottom: 1px solid var(--accent);
 
   .module {
+    width: auto;
     font-size: 1.1rem;
     border: 0px;
-    border-bottom: 1px solid var(--accent)-light;
+    border-bottom: 1px solid var(--accent);
     cursor: pointer;
   }
 }
