@@ -1,10 +1,10 @@
 <script lang="ts">
   import '$lib/styles/app.scss'
-  import type { Robot } from '$lib/interfaces/robot';
+  import type { SustainedResource } from '$lib/interfaces/sustained-resource';
+  import type { ButtonData } from '$lib/interfaces/button-data';
   import { RobotStore } from "$lib/stores/robot-store";
   import { ResourceStore } from '$lib/stores/resource-store';
   import Button from "./generic/rf-button.svelte";
-  import type { ButtonData } from '$lib/interfaces/button-data';
 
   let resourceButtons: ButtonData[];
   $: resourceButtons = Array.from($RobotStore.entries())
@@ -38,7 +38,7 @@
     } 
   }
 
-  function mapInputs(resource: Robot): { input: string; amount: number }[] {
+  function mapInputs(resource: SustainedResource): { input: string; amount: number }[] {
     let result: { input: string; amount: number }[] = [];
     for (let i = 0; i < resource.inputs.length; i++) {
       result.push({ input: resource.inputs[i], amount: resource.baseCost[i] });
@@ -46,7 +46,7 @@
     return result;
   }
 
-  function mapOutputs(resource: Robot): { output: string; amount: number }[] {
+  function mapOutputs(resource: SustainedResource): { output: string; amount: number }[] {
     let result: { output: string; amount: number }[] = [];
     for (let i = 0; i < resource.products.length; i++) {
       result.push({ output: resource.products[i], amount: resource.baseProduction[i] });

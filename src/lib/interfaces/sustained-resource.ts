@@ -1,4 +1,4 @@
-export interface Robot {
+export interface SustainedResource {
   description: string;
   products: string[];
   baseProduction: number[];

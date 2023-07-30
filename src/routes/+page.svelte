@@ -3,10 +3,12 @@
   import ResourceList from '$lib/components/resource-list.svelte';
   import Fabrication from '$lib/components/fabrication.svelte';
   import ControlRoom from '$lib/components/control-room.svelte';
+    import PowerGeneration from '$lib/components/power-generation.svelte';
 
   let modules = [
+    "Power Generation",
     "Control Room",
-    "Fabrication"
+    "Fabrication",
   ]
 
   let currentModule = "Control Room"
@@ -24,9 +26,10 @@
   <div class="main-area">
     {#if currentModule === "Control Room"}
       <ControlRoom />
-    {/if}
-    {#if currentModule === "Fabrication"}
+    {:else if currentModule === "Fabrication"}
       <Fabrication />
+    {:else if currentModule === "Power Generation"}
+      <PowerGeneration />
     {/if}
   </div>
 </div>

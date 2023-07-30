@@ -1,13 +1,12 @@
 <script lang="ts">
   import type { ButtonData } from "$lib/interfaces/button-data";
   import type { ManualResource } from "$lib/interfaces/manual-resource";
-  import type { Resource } from "$lib/interfaces/resource";
-  import { ManualResourceStore } from "$lib/stores/manual-resource-store";
+  import { ResourceButtonStore } from "$lib/stores/resource-button-store";
   import { ResourceStore } from "$lib/stores/resource-store";
   import Button from "./generic/rf-button.svelte";
 
   let resourceButtons: ButtonData[];
-  $: resourceButtons = Array.from($ManualResourceStore.entries())
+  $: resourceButtons = Array.from($ResourceButtonStore.entries())
     .filter(([k, v]) => v.unlocked)
     .map(([k, v]) => {
       return {
@@ -20,7 +19,7 @@
   let resourceInputSatisfaction: Map<string, boolean> = new Map<string, boolean>();
   $: {
     for (let buttonData of resourceButtons) {
-      let button = $ManualResourceStore.get(buttonData.name)!;
+      let button = $ResourceButtonStore.get(buttonData.name)!;
       let satisfied = true;
       for (let i = 0; i < button.inputs.length; i++) {
         if (button.inputs[i] === "Time") {
@@ -55,10 +54,10 @@
 <h2>Actions</h2>
 <div class="button-container">
   {#each resourceButtons as buttonData}
-    {@const resourceData = $ManualResourceStore.get(buttonData.name)}
+    {@const resourceData = $ResourceButtonStore.get(buttonData.name)}
     {#if resourceData}
       <Button
-        on:click={() => ManualResourceStore.use(buttonData.name)}
+        on:click={() => ResourceButtonStore.use(buttonData.name)}
         name={buttonData.name}
         tooltip={resourceData.description}
         inputs={buttonData.inputs}

@@ -1,8 +1,8 @@
-import { ManualResources } from "$lib/definitions/manual-resources";
+import { ManualResources } from "$lib/definitions/resource-buttons";
 import { writable } from "svelte/store";
 import { ResourceStore } from "./resource-store";
 
-function createManualResourceStore() {
+function createResourceButtonStore() {
   let {subscribe, update} = writable(ManualResources);
 
   return {
@@ -41,4 +41,4 @@ function createManualResourceStore() {
   }
 }
 
-export let ManualResourceStore = createManualResourceStore();
+export let ResourceButtonStore = createResourceButtonStore();

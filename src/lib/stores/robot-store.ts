@@ -1,29 +1,29 @@
-import { Robots } from "$lib/definitions/robots";
+import { RobotButtons } from "$lib/definitions/robots-buttons";
 import { writable } from "svelte/store";
 import { ResourceStore } from "./resource-store";
 
 function createRobotStore() {
-  let {subscribe, update} = writable(Robots);
+  let {subscribe, update} = writable(RobotButtons);
 
   return {
     subscribe,
     unlock: (robot: string) => {
-      if (!Robots.has(robot)) throw new Error("Resource does not exist: " + robot);
+      if (!RobotButtons.has(robot)) throw new Error("Resource does not exist: " + robot);
 
-      Robots.get(robot)!.unlocked = true;
-      update(() => Robots);
+      RobotButtons.get(robot)!.unlocked = true;
+      update(() => RobotButtons);
     },
     use: (robot: string) => {
-      let robotResource = Robots.get(robot);
+      let robotResource = RobotButtons.get(robot);
       
       if (robotResource) {
         let i = robotResource.inputs.indexOf("Time");
         if (i !== -1) {
           robotResource.disabled = true;
-          update(() => Robots);
+          update(() => RobotButtons);
           setTimeout(() => {
             robotResource!.disabled = false;
-            update(() => Robots);
+            update(() => RobotButtons);
           }, robotResource.baseCost[i] * 1000);
         }
         for (let i = 0; i < robotResource.inputs.length; i++) {

@@ -1,6 +1,6 @@
-import type { Robot } from "$lib/interfaces/robot";
+import type { SustainedResource } from "$lib/interfaces/sustained-resource";
 
-export let Robots: Map<string, Robot> = new Map<string, Robot>([
+export let RobotButtons: Map<string, SustainedResource> = new Map<string, SustainedResource>([
   [
     "Coal Miner",
     {
