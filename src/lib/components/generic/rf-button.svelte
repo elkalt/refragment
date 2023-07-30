@@ -76,11 +76,15 @@
 		on:click={() => handleClick()}>
 		{name}
 	</button>
-	<div style="width: {progressWidth}%" class="progress-bar"></div>
+	<div style:width="{progressWidth}%" class="progress-bar"></div>
 </div>
 
 {#if isHovered}
-	<div style="top: {tooltipY}px; left: {tooltipX}px; width: {tooltipWidth}px;" class="tooltip-container">
+	<div
+		class="tooltip-container"
+		style:top="{tooltipY}px"
+		style:left="{tooltipX}px"
+		style:width="{tooltipWidth}px">
 		<div class="tooltip">
 			{tooltip}
 			<hr>
