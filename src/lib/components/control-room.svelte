@@ -1,11 +1,20 @@
 <script lang="ts">
-  import ResourceButtons from "./resource-buttons.svelte";
-  import RobotButtons from "./robot-buttons.svelte";
+  import { ResourceButtonStore } from "$lib/stores/resource-button-store";
+  import { RobotButtonStore } from "$lib/stores/robot-button-store";
+  import RfButtonList from "./generic/rf-button-list.svelte";
 </script>
 
 <div class="buttons-container">
-  <ResourceButtons />
-  <RobotButtons />
+  <RfButtonList
+  header="Actions"
+  columns={2}
+  buttonStore={$ResourceButtonStore}
+  on:click={(event) => ResourceButtonStore.use(event.detail.name)}/>
+  <RfButtonList
+    header="Robots"
+    columns={2}
+    buttonStore={$RobotButtonStore}
+    on:click={(event) => RobotButtonStore.use(event.detail.name)}/>
 </div>
 
 <style lang="scss">
