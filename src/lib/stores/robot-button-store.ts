@@ -8,33 +8,36 @@ function createRobotButtonStore() {
 
   return {
     subscribe,
-    unlock: (robot: string) => {
-      if (!RobotButtons.has(robot)) throw new Error("Resource does not exist: " + robot);
+    unlock: (robotButtonName: string) => {
+      let robotButton = RobotButtons.get(robotButtonName);
+      if (!robotButton) throw new Error("Resource does not exist: " + robotButtonName);
 
-      RobotButtons.get(robot)!.unlocked = true;
+      robotButton!.unlocked = true;
       update(() => RobotButtons);
     },
-    use: (robot: string) => {
-      let robotResource = RobotButtons.get(robot);
+
+    use: (robotButtonName: string) => {
+      let robotButton = RobotButtons.get(robotButtonName);
       
-      if (robotResource) {
-        for (let input of robotResource.inputs) {
+      if (robotButton) {
+        for (let input of robotButton.inputs) {
           if (input.input === "Time") {
-            robotResource.disabled = true;
-            robotResource.cooldown = input.amount;
+            robotButton.disabled = true;
+            robotButton.cooldown = input.amount;
             update(() => RobotButtons);
           } else {
             ResourceStore.decrement(input.input, input.amount);
           }
         }
-        RobotStore.increment(robot, 1);
+        RobotStore.increment(robotButtonName, 1);
       } else {
-        throw new Error("Robot does not exist: " + robot);
+        throw new Error("Robot does not exist: " + robotButtonName);
       }
     },
-    getSustainInfo: (robot: string) => {
-      let robotResource = RobotButtons.get(robot);
-      if (!robotResource) throw new Error("Resource does not exist: " + robot);
+
+    getSustainInfo: (robotButtonName: string) => {
+      let robotResource = RobotButtons.get(robotButtonName);
+      if (!robotResource) throw new Error("Resource does not exist: " + robotButtonName);
 
       return {sustain: robotResource.sustain, outputs: robotResource.outputs};
     }

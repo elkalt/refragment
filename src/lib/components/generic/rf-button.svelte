@@ -15,7 +15,7 @@
 	let tooltipWidth: number;
 
 	let dispatch = createEventDispatcher();
-	
+
 	let timeCost = inputs.find(i => i.input === "Time")?.amount;
 	let progressWidth: number;
 	$: {

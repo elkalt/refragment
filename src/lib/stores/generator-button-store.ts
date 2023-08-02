@@ -8,35 +8,36 @@ function createGeneratorButtonStore() {
 
   return {
     subscribe,
-    unlock: (generator: string) => {
-      if (!GeneratorButtons.has(generator)) throw new Error("Resource does not exist: " + generator);
+    unlock: (generatorButtonName: string) => {
+      let generator = GeneratorButtons.get(generatorButtonName);
+      if (generator) throw new Error("Resource does not exist: " + generatorButtonName);
 
-      GeneratorButtons.get(generator)!.unlocked = true;
+      generator!.unlocked = true;
       update(() => GeneratorButtons);
     },
 
-    use: (generator: string) => {
-      let generatorResource = GeneratorButtons.get(generator);
+    use: (generatorButtonName: string) => {
+      let generatorButton = GeneratorButtons.get(generatorButtonName);
       
-      if (generatorResource) {
-        for (let input of generatorResource.inputs) {
+      if (generatorButton) {
+        for (let input of generatorButton.inputs) {
           if (input.input === "Time") {
-            generatorResource.disabled = true;
+            generatorButton.disabled = true;
             update(() => GeneratorButtons);
 
             setTimeout(() => {
-              generatorResource!.disabled = false;
+              generatorButton!.disabled = false;
               update(() => GeneratorButtons);
             }, input.amount * 1000);
           } else { 
             ResourceStore.decrement(input.input, input.amount);
           }
         }
-        for (let output of generatorResource.outputs) {
+        for (let output of generatorButton.outputs) {
           GeneratorStore.increment(output.output, output.amount);
         }
       } else {
-        throw new Error("Manual resource does not exist: " + generator);
+        throw new Error("Manual resource does not exist: " + generatorButtonName);
       }
     }
   }

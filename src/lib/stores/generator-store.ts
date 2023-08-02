@@ -6,16 +6,18 @@ function createGeneratorStore() {
 
   return {
     subscribe,
-    increment: (generator: string, amount: number) => {
-      if (!Generators.has(generator)) throw new Error("Generator does not exist: " + generator);
+    increment: (generatorName: string, amount: number) => {
+      let generator = Generators.get(generatorName);
+      if (generator) throw new Error("Generator does not exist: " + generatorName);
 
-      Generators.get(generator)!.amount += amount;
+      generator!.amount += amount;
       update(() => Generators);
     },
-    decrement: (generator: string, amount: number) => {
-      if (!Generators.has(generator)) throw new Error("Generator does not exist: " + generator);
+    decrement: (generatorName: string, amount: number) => {
+      let generator = Generators.get(generatorName);
+      if (generator) throw new Error("Generator does not exist: " + generatorName);
 
-      Generators.get(generator)!.amount -= amount;
+      generator!.amount -= amount;
       update(() => Generators);
     }
   }

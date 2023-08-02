@@ -9,21 +9,23 @@ function createRobotStore() {
 
   return {
     subscribe,
-    increment: (robot: string, amount: number) => {
-      let robotResource = Robots.get(robot);
-      if (!robotResource) throw new Error("Generator does not exist: " + robot);
+    increment: (robotName: string, amount: number) => {
+      let robot = Robots.get(robotName);
+      if (!robot) throw new Error("Generator does not exist: " + robotName);
 
-      robotResource.amount += amount;
-      robotResource.created?.push(TickManager.getCurrentTick());
+      robot.amount += amount;
+      robot.created?.push(TickManager.getCurrentTick());
       update(() => Robots);
     },
-    decrement: (robot: string, amount: number) => {
-      if (!Robots.has(robot)) throw new Error("Generator does not exist: " + robot);
+    decrement: (robotName: string, amount: number) => {
+      let robot = Robots.get(robotName);
+      if (robot) throw new Error("Generator does not exist: " + robotName);
 
-      Robots.get(robot)!.amount -= amount;
-      update(() => Robots);
+      robot!.amount -= amount;
+      update((Robots) => Robots);
     },
-    update: (currentTick: number) => {
+
+    tickUpdate: (currentTick: number) => {
       for (let robotName of Robots.keys()) {
         let sustainInfo = RobotButtonStore.getSustainInfo(robotName)!;
         if (sustainInfo) {

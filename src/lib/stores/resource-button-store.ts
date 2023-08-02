@@ -7,35 +7,36 @@ function createResourceButtonStore() {
 
   return {
     subscribe,
-    unlock: (resource: string) => {
-      if (!ResourceButtons.has(resource)) throw new Error("Resource does not exist: " + resource);
+    unlock: (resourceButtonName: string) => {
+      let resourceButton = ResourceButtons.get(resourceButtonName);
+      if (!resourceButton) throw new Error("Resource does not exist: " + resourceButtonName);
 
-      ResourceButtons.get(resource)!.unlocked = true;
+      resourceButton!.unlocked = true;
       update(() => ResourceButtons);
     },
 
-    use: (resource: string) => {
-      let manualResource = ResourceButtons.get(resource);
+    use: (resourceButtonName: string) => {
+      let resourceButton = ResourceButtons.get(resourceButtonName);
       
-      if (manualResource) {
-        for (let input of manualResource.inputs) {
+      if (resourceButton) {
+        for (let input of resourceButton.inputs) {
           if (input.input === "Time") {
-            manualResource.disabled = true;
-            manualResource.cooldown = input.amount;
+            resourceButton.disabled = true;
+            resourceButton.cooldown = input.amount;
             update(() => ResourceButtons);
           } else { 
             ResourceStore.decrement(input.input, input.amount);
           }
         }
-        for (let output of manualResource.outputs) {
+        for (let output of resourceButton.outputs) {
           ResourceStore.increment(output.output, output.amount);
         }
       } else {
-        throw new Error("Manual resource does not exist: " + resource);
+        throw new Error("Manual resource does not exist: " + resourceButtonName);
       }
     },
 
-    update: () => {
+    tickUpdate: () => {
       for (let buttonName of ResourceButtons.keys()) {
         let button = ResourceButtons.get(buttonName)!;
         if (button.cooldown) {

@@ -18,8 +18,8 @@ function createTickManager() {
       return TickState.currentTick;
     },
     updateTick: () => {
-      ResourceButtonStore.update();
-      RobotStore.update(TickState.currentTick);
+      ResourceButtonStore.tickUpdate();
+      RobotStore.tickUpdate(TickState.currentTick);
 
       update((tickStore) => {
         tickStore.currentTick++;

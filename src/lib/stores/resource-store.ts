@@ -6,16 +6,18 @@ function createResourceStore() {
 
   return {
     subscribe,
-    increment: (resource: string, amount: number) => {
-      if (!Resources.has(resource)) throw new Error("Resource does not exist: " + resource);
+    increment: (resourceName: string, amount: number) => {
+      let resource = Resources.get(resourceName);
+      if (resource) throw new Error("Resource does not exist: " + resourceName);
       
-      Resources.get(resource)!.amount += amount;
+      resource!.amount += amount;
       update(() => Resources);
     },
-    decrement: (resource: string, amount: number) => {
-      if (!Resources.has(resource)) throw new Error("Resource does not exist: " + resource);
+    decrement: (resourceName: string, amount: number) => {
+      let resource = Resources.get(resourceName);
+      if (resource) throw new Error("Resource does not exist: " + resourceName);
 
-      Resources.get(resource)!.amount -= amount;
+      resource!.amount -= amount;
       update(() => Resources);
     }
   }
