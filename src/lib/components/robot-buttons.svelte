@@ -1,73 +1,42 @@
 <script lang="ts">
   import '$lib/styles/app.scss'
-  import type { SustainedResource } from '$lib/interfaces/sustained-resource';
-  import type { ButtonData } from '$lib/interfaces/button-data';
-  import { RobotStore } from "$lib/stores/robot-store";
+  import { RobotButtonStore } from "$lib/stores/robot-button-store";
   import { ResourceStore } from '$lib/stores/resource-store';
   import Button from "./generic/rf-button.svelte";
-
-  let resourceButtons: ButtonData[];
-  $: resourceButtons = Array.from($RobotStore.entries())
-    .filter(([k, v]) => {
-      return v.unlocked;
-    })
-    .map(([k, v]) => {
-      return {
-        name: k,
-        inputs: mapInputs(v),
-        outputs: mapOutputs(v),
-        sustain: { interval: v.baseProductionInterval, totalTime: v.baseProductionTime },
-       };
-    });
   
   let resourceInputSatisfaction: Map<string, boolean> = new Map<string, boolean>();
   $: {
-    for (let buttonData of resourceButtons) {
-      let button = $RobotStore.get(buttonData.name)!;
+    for (let name of $RobotButtonStore.keys()) {
+      let button = $RobotButtonStore.get(name)!;
       let satisfied = true;
-      for (let i = 0; i < button.inputs.length; i++) {
-        if (button.inputs[i] === "Time") {
+      for (let input of button.inputs) {
+        if (input.input === "Time") {
           continue;
         }
-        if (button.baseCost[i] > $ResourceStore.get(button.inputs[i])!.amount) {
+        if (input.amount > $ResourceStore.get(input.input)!.amount) {
           satisfied = false;
           break;
         }
       }
-      resourceInputSatisfaction.set(buttonData.name, satisfied);
-    } 
-  }
-
-  function mapInputs(resource: SustainedResource): { input: string; amount: number }[] {
-    let result: { input: string; amount: number }[] = [];
-    for (let i = 0; i < resource.inputs.length; i++) {
-      result.push({ input: resource.inputs[i], amount: resource.baseCost[i] });
+      resourceInputSatisfaction.set(name, satisfied);
     }
-    return result;
-  }
-
-  function mapOutputs(resource: SustainedResource): { output: string; amount: number }[] {
-    let result: { output: string; amount: number }[] = [];
-    for (let i = 0; i < resource.products.length; i++) {
-      result.push({ output: resource.products[i], amount: resource.baseProduction[i] });
-    }
-    return result;
+    resourceInputSatisfaction = new Map(resourceInputSatisfaction);
   }
 </script>
 
 <h2>Robots</h2>
 <div class="button-container">
-  {#each resourceButtons as buttonData}
-  {@const resourceData = $RobotStore.get(buttonData.name)}
+  {#each $RobotButtonStore.keys() as name}
+  {@const resourceData = $RobotButtonStore.get(name)}
     {#if resourceData}
       <Button
-        on:click={() => RobotStore.use(buttonData.name)}
-        name={buttonData.name}
+        on:click={() => RobotButtonStore.use(name)}
+        name={name}
         tooltip={resourceData.description}
-        inputs={buttonData.inputs}
-        products={buttonData.outputs}
-        disabled={resourceData.disabled || resourceInputSatisfaction.get(buttonData.name)?.valueOf() === false}
-        sustain={buttonData.sustain}
+        inputs={resourceData.inputs}
+        products={resourceData.outputs}
+        disabled={resourceData.disabled || resourceInputSatisfaction.get(name)?.valueOf() === false}
+        sustain={resourceData.sustain}
         />
     {/if}
   {/each}

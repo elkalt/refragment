@@ -3,7 +3,7 @@
   import ResourceList from '$lib/components/resource-list.svelte';
   import Fabrication from '$lib/components/fabrication.svelte';
   import ControlRoom from '$lib/components/control-room.svelte';
-    import PowerGeneration from '$lib/components/power-generation.svelte';
+  import PowerGeneration from '$lib/components/power-generation.svelte';
 
   let modules = [
     "Power Generation",

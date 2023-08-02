@@ -1,38 +1,38 @@
-import { ManualResources } from "$lib/definitions/resource-buttons";
+import { ResourceButtons } from "$lib/definitions/resource-buttons";
 import { writable } from "svelte/store";
 import { ResourceStore } from "./resource-store";
 
 function createResourceButtonStore() {
-  let {subscribe, update} = writable(ManualResources);
+  let {subscribe, update} = writable(ResourceButtons);
 
   return {
     subscribe,
     unlock: (resource: string) => {
-      if (!ManualResources.has(resource)) throw new Error("Resource does not exist: " + resource);
+      if (!ResourceButtons.has(resource)) throw new Error("Resource does not exist: " + resource);
 
-      ManualResources.get(resource)!.unlocked = true;
-      update(() => ManualResources);
+      ResourceButtons.get(resource)!.unlocked = true;
+      update(() => ResourceButtons);
     },
+
     use: (resource: string) => {
-      let manualResource = ManualResources.get(resource);
+      let manualResource = ResourceButtons.get(resource);
       
       if (manualResource) {
-        let i = manualResource.inputs.indexOf("Time");
-        if (i !== -1) {
-          manualResource.disabled = true;
-          update(() => ManualResources);
-          setTimeout(() => {
-            manualResource!.disabled = false;
-            update(() => ManualResources);
-          }, manualResource.baseCost[i] * 1000);
-        }
-        for (let i = 0; i < manualResource.inputs.length; i++) {
-          if (manualResource.inputs[i] !== "Time") {
-            ResourceStore.decrement(manualResource.inputs[i], manualResource.baseCost[i]);
+        for (let input of manualResource.inputs) {
+          if (input.input === "Time") {
+            manualResource.disabled = true;
+            update(() => ResourceButtons);
+
+            setTimeout(() => {
+              manualResource!.disabled = false;
+              update(() => ResourceButtons);
+            }, input.amount * 1000);
+          } else { 
+            ResourceStore.decrement(input.input, input.amount);
           }
         }
-        for (let i = 0; i < manualResource.products.length; i++) {
-          ResourceStore.increment(manualResource.products[i], manualResource.baseProduction[i]);
+        for (let output of manualResource.outputs) {
+          ResourceStore.increment(output.output, output.amount);
         }
       } else {
         throw new Error("Manual resource does not exist: " + resource);

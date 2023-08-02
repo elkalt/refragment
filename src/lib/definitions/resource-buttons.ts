@@ -1,14 +1,12 @@
-import type { ManualResource } from '$lib/interfaces/manual-resource';
+import type { ButtonData } from '$lib/interfaces/button-data';
 
-export let ManualResources: Map<string, ManualResource> = new Map([
+export let ResourceButtons: Map<string, ButtonData> = new Map([
   [
     "Generate",
     {
       description: "Hand crank the generator",
-      products: ["Energy"],
-      baseProduction: [1],
-      inputs: ["Time"],
-      baseCost: [5],
+      inputs: [{input: "Time", amount: 1}],
+      outputs: [{output: "Energy", amount: 5}],
       disabled: false,
       unlocked: true
     }
@@ -17,10 +15,8 @@ export let ManualResources: Map<string, ManualResource> = new Map([
     "Mine",
     {
       description: "Power a stationary mine",
-      products: ["Coal", "Iron Ore"],
-      baseProduction: [3, 2],
-      inputs: ["Energy"],
-      baseCost: [5],
+      inputs: [{input: "Energy", amount: 5}],
+      outputs: [{output: "Coal", amount: 3}, {output: "Iron Ore", amount: 2}],
       disabled: false,
       unlocked: true
     }
@@ -29,10 +25,8 @@ export let ManualResources: Map<string, ManualResource> = new Map([
     "Smelt",
     {
       description: "Power an iron smelter",
-      products: ["Iron"],
-      baseProduction: [1],
-      inputs: ["Coal", "Iron Ore"],
-      baseCost: [5, 4],
+      inputs: [{input: "Coal", amount: 5}, {input: "Iron Ore", amount: 4}],
+      outputs: [{output: "Iron", amount: 1}],
       disabled: false,
       unlocked: true
     }
