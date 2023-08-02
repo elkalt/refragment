@@ -6,15 +6,17 @@
 
 <div class="buttons-container">
   <RfButtonList
-  header="Actions"
-  columns={2}
-  buttonStore={$ResourceButtonStore}
-  on:click={(event) => ResourceButtonStore.use(event.detail.name)}/>
+    header="Actions"
+    columns={2}
+    buttonStore={$ResourceButtonStore}
+    on:click={(event) => ResourceButtonStore.use(event.detail.name)}>
+  </RfButtonList>
   <RfButtonList
     header="Robots"
     columns={2}
     buttonStore={$RobotButtonStore}
-    on:click={(event) => RobotButtonStore.use(event.detail.name)}/>
+    on:click={(event) => RobotButtonStore.use(event.detail.name)}>
+  </RfButtonList>
 </div>
 
 <style lang="scss">
