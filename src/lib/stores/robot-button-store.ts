@@ -21,12 +21,8 @@ function createRobotButtonStore() {
         for (let input of robotResource.inputs) {
           if (input.input === "Time") {
             robotResource.disabled = true;
+            robotResource.cooldown = input.amount;
             update(() => RobotButtons);
-          
-            setTimeout(() => {
-              robotResource!.disabled = false;
-              update(() => RobotButtons);
-            }, input.amount * 1000);
           } else {
             ResourceStore.decrement(input.input, input.amount);
           }
