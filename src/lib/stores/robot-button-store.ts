@@ -1,6 +1,7 @@
 import { RobotButtons } from "$lib/definitions/robot-buttons";
 import { writable } from "svelte/store";
 import { ResourceStore } from "./resource-store";
+import { RobotStore } from "./robot-store";
 
 function createRobotButtonStore() {
   let {subscribe, update} = writable(RobotButtons);
@@ -30,19 +31,16 @@ function createRobotButtonStore() {
             ResourceStore.decrement(input.input, input.amount);
           }
         }
-        let elapsedTime = 0;
-        let interval = setInterval(() => {
-          for (let output of robotResource!.outputs) {
-            ResourceStore.increment(output.output, output.amount);
-          }
-          elapsedTime += robotResource!.sustain!.interval;
-          if (elapsedTime >= robotResource!.sustain!.totalTime) {
-            clearInterval(interval);
-          }
-        }, robotResource.sustain!.interval * 1000);
+        RobotStore.increment(robot, 1);
       } else {
         throw new Error("Robot does not exist: " + robot);
       }
+    },
+    getSustainInfo: (robot: string) => {
+      let robotResource = RobotButtons.get(robot);
+      if (!robotResource) throw new Error("Resource does not exist: " + robot);
+
+      return {sustain: robotResource.sustain, outputs: robotResource.outputs};
     }
   }
 }

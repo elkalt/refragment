@@ -1,23 +1,29 @@
 <script lang="ts">
-  import { ResourceStore } from '$lib/stores/resource-store';
-
-  let unlockedResources: string[];
-  $: unlockedResourceKeys = Array.from($ResourceStore.entries())
-    .filter(([k, v]) => v.unlocked)
-    .map(([k, v]) => k);
+  import type { Resource } from '$lib/interfaces/resource';
+  
+  export let title: string;
+  export let resourceStore: Map<string, Resource>;
 </script>
 
+<h3>{title}</h3>
 <div class="resource-container">
-  {#each unlockedResourceKeys as name}
-    <div class="resource-line-item">
-      <div class="resource-name">{ name }</div>
-      <div class="resource-count">{ $ResourceStore.get(name)?.amount }</div>
-    </div>
+  {#each resourceStore.keys() as name}
+    {@const resource = resourceStore.get(name)}
+    {#if resource && resource.unlocked}
+      <div class="resource-line-item">
+        <div class="resource-name">{ name }</div>
+        <div class="resource-count">{ resourceStore.get(name)?.amount }</div>
+      </div>
+    {/if}
   {/each}
 </div>
 
 <style lang="scss">
   @import "$lib/styles/variables.scss";
+  h3 {
+    margin: 0;
+  }
+
   .resource-container {
     display: flex;
     flex-direction: column;

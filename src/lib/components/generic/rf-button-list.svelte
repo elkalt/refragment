@@ -4,7 +4,7 @@
   import { ResourceStore } from "$lib/stores/resource-store";
   import Button from "./rf-button.svelte";
 
-  export let header: string;
+  export let title: string;
   export let columns: number;
   export let buttonStore: Map<string, ButtonData>;
 
@@ -30,7 +30,7 @@
   }
 </script>
 
-<h2>{header}</h2>
+<h2>{title}</h2>
 <div class="button-container" style:grid-template-columns="repeat({columns}, 1fr)">
   {#each buttonStore.keys() as name}
     {@const resourceData = buttonStore.get(name)}
@@ -41,6 +41,7 @@
         tooltip={resourceData.description}
         inputs={resourceData.inputs}
         products={resourceData.outputs}
+        cooldown={resourceData.cooldown}
         disabled={resourceData.disabled || resourceInputSatisfaction.get(name)?.valueOf() === false}
         />
     {/if}

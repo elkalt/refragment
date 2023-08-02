@@ -8,7 +8,7 @@ function createResourceStore() {
     subscribe,
     increment: (resource: string, amount: number) => {
       if (!Resources.has(resource)) throw new Error("Resource does not exist: " + resource);
-
+      
       Resources.get(resource)!.amount += amount;
       update(() => Resources);
     },

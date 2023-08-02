@@ -1,0 +1,1 @@
+export let TickState = {currentTick: 0, tickSpeed: 10};

@@ -21,12 +21,8 @@ function createResourceButtonStore() {
         for (let input of manualResource.inputs) {
           if (input.input === "Time") {
             manualResource.disabled = true;
+            manualResource.cooldown = input.amount;
             update(() => ResourceButtons);
-
-            setTimeout(() => {
-              manualResource!.disabled = false;
-              update(() => ResourceButtons);
-            }, input.amount * 1000);
           } else { 
             ResourceStore.decrement(input.input, input.amount);
           }
@@ -37,6 +33,22 @@ function createResourceButtonStore() {
       } else {
         throw new Error("Manual resource does not exist: " + resource);
       }
+    },
+
+    update: () => {
+      for (let buttonName of ResourceButtons.keys()) {
+        let button = ResourceButtons.get(buttonName)!;
+        if (button.cooldown) {
+          if (button.cooldown - 1 === 0) {
+            button.cooldown--;
+            button.disabled = false;
+          } 
+          if (button.cooldown > 1) {
+            button.cooldown--;
+          }
+        }
+      }
+      update(() => ResourceButtons);
     }
   }
 }
