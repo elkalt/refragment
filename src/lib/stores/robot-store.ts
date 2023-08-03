@@ -19,7 +19,7 @@ function createRobotStore() {
     },
     decrement: (robotName: string, amount: number) => {
       let robot = Robots.get(robotName);
-      if (robot) throw new Error("Generator does not exist: " + robotName);
+      if (!robot) throw new Error("Generator does not exist: " + robotName);
 
       robot!.amount -= amount;
       update((Robots) => Robots);

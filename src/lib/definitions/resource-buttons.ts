@@ -5,7 +5,7 @@ export let ResourceButtons: Map<string, ButtonData> = new Map([
     "Generate",
     {
       description: "Hand crank the generator",
-      inputs: [{input: "Time", amount: 100}],
+      inputs: [{input: "Time", amount: 10}],
       outputs: [{output: "Energy", amount: 5}],
       disabled: false,
       unlocked: true,

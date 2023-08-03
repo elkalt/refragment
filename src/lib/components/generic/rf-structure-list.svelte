@@ -1,19 +1,19 @@
 <script lang="ts">
-  import type { ButtonData } from "$lib/interfaces/button-data";
+  import type { Structure } from "$lib/interfaces/structure";
   import { createEventDispatcher } from "svelte";
   import { ResourceStore } from "$lib/stores/resource-store";
-  import Button from "./rf-button.svelte";
+    import RfStructureManager from "./rf-structure-manager.svelte";
 
   export let title: string = "";
   export let columns: number;
-  export let buttonStore: Map<string, ButtonData>;
+  export let structureStore: Map<string, Structure>;
 
   let dispatch = createEventDispatcher();
 
   let resourceInputSatisfaction: Map<string, boolean> = new Map<string, boolean>();
   $: {
-    for (let name of buttonStore.keys()) {
-      let button = buttonStore.get(name)!;
+    for (let name of structureStore.keys()) {
+      let button = structureStore.get(name)!;
       let satisfied = true;
       for (let input of button.inputs) {
         if (input.input === "Time") {
@@ -34,18 +34,14 @@
   <h2>{title}</h2>
 {/if}
 <div class="button-container" style:grid-template-columns="repeat({columns}, 1fr)">
-  {#each buttonStore.keys() as name}
-    {@const resourceData = buttonStore.get(name)}
-    {#if resourceData && resourceData.unlocked}
-      <Button
-        on:click={() => dispatch("click", {name: name})}
-        name={name}
-        tooltip={resourceData.description}
-        inputs={resourceData.inputs}
-        products={resourceData.outputs}
-        cooldown={resourceData.cooldown}
-        disabled={resourceData.disabled || resourceInputSatisfaction.get(name)?.valueOf() === false}
-        />
+  {#each structureStore.keys() as name}
+    {@const structureData = structureStore.get(name)}
+    {#if structureData && structureData.unlocked}
+      <RfStructureManager
+        on:click={(event) => dispatch("click", {name: name, amount: event.detail.amount})}
+        active={structureData.activated ? structureData.activated.length : 0}
+        max={structureData.amount}>
+      </RfStructureManager>
     {/if}
   {/each}
 </div>

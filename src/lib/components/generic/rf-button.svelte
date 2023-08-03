@@ -51,17 +51,19 @@
 	}
 </script>
 
-<div
-	role="tooltip"
-	on:focus={() => isHovered = true}
-	on:mouseover={mouseOver}
-	on:mouseleave={mouseLeave}>
-	<button
-		style:background-color="{disabled ? 'var(--background-dark)' : (!disabled && isHovered ? 'var(--background-light)' : '')}"
-		style:color="{disabled ? 'var(--accent-dark)' : ''}"
-		on:click={() => handleClick()}>
-		{name}
-	</button>
+<div>
+	<div
+		role="tooltip"
+		on:focus={() => isHovered = true}
+		on:mouseover={mouseOver}
+		on:mouseleave={mouseLeave}> 
+		<button
+			style:background-color="{disabled ? 'var(--background-dark)' : (!disabled && isHovered ? 'var(--background-light)' : '')}"
+			style:color="{disabled ? 'var(--accent-dark)' : ''}"
+			on:click={() => handleClick()}>
+			{name}
+		</button>
+	</div>
 	<div style:width="{progressWidth}%" class="progress-bar"></div>
 </div>
 

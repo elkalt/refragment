@@ -10,7 +10,7 @@ function createGeneratorButtonStore() {
     subscribe,
     unlock: (generatorButtonName: string) => {
       let generator = GeneratorButtons.get(generatorButtonName);
-      if (generator) throw new Error("Resource does not exist: " + generatorButtonName);
+      if (!generator) throw new Error("Resource does not exist: " + generatorButtonName);
 
       generator!.unlocked = true;
       update(() => GeneratorButtons);
