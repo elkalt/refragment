@@ -15,6 +15,9 @@ function createTickManager() {
         return tickStore;
       });
     },
+    getTickSpeed: () => {
+      return TickState.tickSpeed;
+    },
     getCurrentTick: () => {
       return TickState.currentTick;
     },

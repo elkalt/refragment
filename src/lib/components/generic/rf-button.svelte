@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
+	import { TickManager } from "$lib/stores/tick-manager";
 
 	export let name: string;
   export let tooltip: string;
@@ -85,8 +86,8 @@
 				<div class="recipe-column-container">
 					<div>-></div>
 					{#if sustain}
-						<div class="sustain">/{sustain.interval}s</div>
-						<div class="sustain">{sustain.totalTime}s</div>
+						<div class="sustain">/{sustain.interval / TickManager.getTickSpeed()}s</div>
+						<div class="sustain">{sustain.totalTime / TickManager.getTickSpeed()}s</div>
 					{/if}
 				</div>
 				<div class="recipe-column-container output">

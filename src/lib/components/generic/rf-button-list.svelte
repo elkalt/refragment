@@ -44,6 +44,7 @@
         inputs={resourceData.inputs}
         products={resourceData.outputs}
         cooldown={resourceData.cooldown}
+        sustain={resourceData.sustain}
         disabled={resourceData.disabled || resourceInputSatisfaction.get(name)?.valueOf() === false}
         />
     {/if}
