@@ -28,6 +28,13 @@ button {
   cursor: pointer;
 }
 
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  justify-content: center;
+}
+
 .button-container {
   display: grid;
   gap: 1rem;

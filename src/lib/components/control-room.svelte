@@ -6,24 +6,15 @@
 
 <div class="buttons-container">
   <RfButtonList
-    header="Actions"
+    title="Actions"
     columns={2}
     buttonStore={$ResourceButtonStore}
     on:click={(event) => ResourceButtonStore.use(event.detail.name)}>
   </RfButtonList>
   <RfButtonList
-    header="Robots"
+    title="Robots"
     columns={2}
     buttonStore={$RobotButtonStore}
     on:click={(event) => RobotButtonStore.use(event.detail.name)}>
   </RfButtonList>
 </div>
-
-<style lang="scss">
-@import '$lib/styles/variables.scss';
-.buttons-container {
-  display: flex;
-  flex-direction: column;
-  row-gap: 1rem;
-}
-</style>

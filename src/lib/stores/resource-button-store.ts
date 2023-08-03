@@ -7,36 +7,49 @@ function createResourceButtonStore() {
 
   return {
     subscribe,
-    unlock: (resource: string) => {
-      if (!ResourceButtons.has(resource)) throw new Error("Resource does not exist: " + resource);
+    unlock: (resourceButtonName: string) => {
+      let resourceButton = ResourceButtons.get(resourceButtonName);
+      if (!resourceButton) throw new Error("Resource does not exist: " + resourceButtonName);
 
-      ResourceButtons.get(resource)!.unlocked = true;
+      resourceButton!.unlocked = true;
       update(() => ResourceButtons);
     },
 
-    use: (resource: string) => {
-      let manualResource = ResourceButtons.get(resource);
+    use: (resourceButtonName: string) => {
+      let resourceButton = ResourceButtons.get(resourceButtonName);
       
-      if (manualResource) {
-        for (let input of manualResource.inputs) {
+      if (resourceButton) {
+        for (let input of resourceButton.inputs) {
           if (input.input === "Time") {
-            manualResource.disabled = true;
+            resourceButton.disabled = true;
+            resourceButton.cooldown = input.amount;
             update(() => ResourceButtons);
-
-            setTimeout(() => {
-              manualResource!.disabled = false;
-              update(() => ResourceButtons);
-            }, input.amount * 1000);
           } else { 
             ResourceStore.decrement(input.input, input.amount);
           }
         }
-        for (let output of manualResource.outputs) {
+        for (let output of resourceButton.outputs) {
           ResourceStore.increment(output.output, output.amount);
         }
       } else {
-        throw new Error("Manual resource does not exist: " + resource);
+        throw new Error("Manual resource does not exist: " + resourceButtonName);
       }
+    },
+
+    tickUpdate: () => {
+      for (let buttonName of ResourceButtons.keys()) {
+        let button = ResourceButtons.get(buttonName)!;
+        if (button.cooldown) {
+          if (button.cooldown - 1 === 0) {
+            button.cooldown--;
+            button.disabled = false;
+          } 
+          if (button.cooldown > 1) {
+            button.cooldown--;
+          }
+        }
+      }
+      update(() => ResourceButtons);
     }
   }
 }

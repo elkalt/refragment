@@ -1,10 +1,13 @@
 <script lang="ts">
   import '$lib/styles/app.scss'
-  import ResourceList from '$lib/components/resource-list.svelte';
+  import RfResourceList from '$lib/components/generic/rf-resource-list.svelte';
   import Fabrication from '$lib/components/fabrication.svelte';
   import ControlRoom from '$lib/components/control-room.svelte';
   import PowerGeneration from '$lib/components/power-generation.svelte';
-
+  import { TickManager } from '$lib/stores/tick-manager';
+  import { ResourceStore } from '$lib/stores/resource-store';
+  import { GeneratorStore } from '$lib/stores/generator-store';
+  
   let modules = [
     "Power Generation",
     "Control Room",
@@ -12,6 +15,10 @@
   ]
 
   let currentModule = "Control Room"
+
+  setInterval(() => {
+    TickManager.updateTick();
+  }, $TickManager.tickSpeed);
 </script>
 
 <div class=header>
@@ -21,7 +28,12 @@
 </div>
 
 <div class='content-container'>
-  <div class="resources"><ResourceList /></div>
+  <div class="resources">
+    <RfResourceList
+      title="Resources"
+      resourceStore={$ResourceStore}>
+    </RfResourceList>
+  </div>
   
   <div class="main-area">
     {#if currentModule === "Control Room"}
@@ -31,6 +43,21 @@
     {:else if currentModule === "Power Generation"}
       <PowerGeneration />
     {/if}
+  </div>
+
+  <div class="automatics">
+    <div>
+      <RfResourceList
+        title="Generators"
+        resourceStore={$GeneratorStore}>
+      </RfResourceList>
+    </div>
+    <div>
+      <RfResourceList
+        title="Fabricators"
+        resourceStore={$ResourceStore}>
+      </RfResourceList>
+    </div>
   </div>
 </div>
 
@@ -64,6 +91,11 @@
 
   .resources { grid-area: 1 / 1 / 3 / 2; }
   .main-area { grid-area: 1 / 3 / 2 / 4; }
-  // .upgrades { grid-area: 1 / 5 / 2 / 6; }
+  .automatics {
+    grid-area: 1 / 5 / 2 / 6;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
 </style>

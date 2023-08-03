@@ -6,16 +6,28 @@
 	export let inputs: {input: string, amount: number}[];
 	export let products: {output: string, amount: number}[];
 	export let sustain: {interval: number, totalTime: number} | undefined = undefined;
+	export let cooldown: number = 0;
 	export let disabled: boolean;
-
-	let dispatch = createEventDispatcher();
 
 	let isHovered = false;
 	let tooltipX: number;
 	let tooltipY: number;
 	let tooltipWidth: number;
 
-	let progressWidth: number = 0;
+	let dispatch = createEventDispatcher();
+
+	let timeCost = inputs.find(i => i.input === "Time")?.amount;
+	let progressWidth: number;
+	$: {
+		if (cooldown && timeCost) {
+			if (cooldown === timeCost) {
+
+			}
+			progressWidth = (cooldown / timeCost * 100);
+		} else {
+			progressWidth = 0;
+		}
+	};
 
 	function mouseOver(event: MouseEvent) {
 		let button = event.target as HTMLButtonElement;
@@ -31,51 +43,27 @@
 		isHovered = false;
 	}
 
-	async function handleClick() {
+	function handleClick() {
 		if (disabled) {
 			return;
 		}
-
-		await new Promise<void>(resolve => { 
-			dispatch("click");
-			resolve();
-		});
-
-		if (disabled) {
-			let timeout: number = -1;
-			inputs.forEach(input => {
-				if (input.input === "Time") {
-					timeout = input.amount;
-					return;
-				}
-			});
-
-			if (timeout !== -1) {
-				let startTime = Date.now();
-				let interval = setInterval(() => {
-					progressWidth  = 100 - ((Date.now() - startTime) / (timeout * 1000)) * 100;
-
-					if (progressWidth <= 0) {
-						progressWidth = 0;
-						clearInterval(interval);
-					}
-				}, 10);
-			}
-		}
+		dispatch("click");
 	}
 </script>
 
-<div
-	role="tooltip"
-	on:focus={() => isHovered = true}
-	on:mouseover={mouseOver}
-	on:mouseleave={mouseLeave}>
-	<button
-		style="{disabled ? 'background-color: var(--background-dark); color: var(--accent-dark); cursor: default;' : ''}
-			{!disabled && isHovered ? 'background-color: var(--background-light);' : ''}"
-		on:click={() => handleClick()}>
-		{name}
-	</button>
+<div>
+	<div
+		role="tooltip"
+		on:focus={() => isHovered = true}
+		on:mouseover={mouseOver}
+		on:mouseleave={mouseLeave}> 
+		<button
+			style:background-color="{disabled ? 'var(--background-dark)' : (!disabled && isHovered ? 'var(--background-light)' : '')}"
+			style:color="{disabled ? 'var(--accent-dark)' : ''}"
+			on:click={() => handleClick()}>
+			{name}
+		</button>
+	</div>
 	<div style:width="{progressWidth}%" class="progress-bar"></div>
 </div>
 

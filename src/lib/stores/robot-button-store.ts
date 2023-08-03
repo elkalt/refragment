@@ -1,48 +1,45 @@
 import { RobotButtons } from "$lib/definitions/robot-buttons";
 import { writable } from "svelte/store";
 import { ResourceStore } from "./resource-store";
+import { RobotStore } from "./robot-store";
 
 function createRobotButtonStore() {
   let {subscribe, update} = writable(RobotButtons);
 
   return {
     subscribe,
-    unlock: (robot: string) => {
-      if (!RobotButtons.has(robot)) throw new Error("Resource does not exist: " + robot);
+    unlock: (robotButtonName: string) => {
+      let robotButton = RobotButtons.get(robotButtonName);
+      if (!robotButton) throw new Error("Resource does not exist: " + robotButtonName);
 
-      RobotButtons.get(robot)!.unlocked = true;
+      robotButton!.unlocked = true;
       update(() => RobotButtons);
     },
-    use: (robot: string) => {
-      let robotResource = RobotButtons.get(robot);
+
+    use: (robotButtonName: string) => {
+      let robotButton = RobotButtons.get(robotButtonName);
       
-      if (robotResource) {
-        for (let input of robotResource.inputs) {
+      if (robotButton) {
+        for (let input of robotButton.inputs) {
           if (input.input === "Time") {
-            robotResource.disabled = true;
+            robotButton.disabled = true;
+            robotButton.cooldown = input.amount;
             update(() => RobotButtons);
-          
-            setTimeout(() => {
-              robotResource!.disabled = false;
-              update(() => RobotButtons);
-            }, input.amount * 1000);
           } else {
             ResourceStore.decrement(input.input, input.amount);
           }
         }
-        let elapsedTime = 0;
-        let interval = setInterval(() => {
-          for (let output of robotResource!.outputs) {
-            ResourceStore.increment(output.output, output.amount);
-          }
-          elapsedTime += robotResource!.sustain!.interval;
-          if (elapsedTime >= robotResource!.sustain!.totalTime) {
-            clearInterval(interval);
-          }
-        }, robotResource.sustain!.interval * 1000);
+        RobotStore.increment(robotButtonName, 1);
       } else {
-        throw new Error("Robot does not exist: " + robot);
+        throw new Error("Robot does not exist: " + robotButtonName);
       }
+    },
+
+    getSustainInfo: (robotButtonName: string) => {
+      let robotResource = RobotButtons.get(robotButtonName);
+      if (!robotResource) throw new Error("Resource does not exist: " + robotButtonName);
+
+      return {sustain: robotResource.sustain, outputs: robotResource.outputs};
     }
   }
 }
