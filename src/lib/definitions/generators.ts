@@ -9,7 +9,7 @@ export let Generators: Map<string, Structure> = new Map([
       inputs: [{input: "Coal", amount: 1}],
       outputs: [{output: "Energy", amount: 1}],
       interval: 150,
-      activated: []
+      created: [],
     }
   ],
 ]);

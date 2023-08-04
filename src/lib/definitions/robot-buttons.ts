@@ -7,7 +7,7 @@ export let RobotButtons: Map<string, ButtonData> = new Map<string, ButtonData>([
       description: "Build a coal miner",
       inputs: [{input: "Energy", amount: 5}, {input: "Iron", amount: 5}],
       outputs: [{output: "Coal", amount: 2}],
-      sustain: {interval: 250, totalTime: 6000},
+      sustain: {interval: 100, totalTime: 2400},
       disabled: false,
       unlocked: true
     }
@@ -18,7 +18,7 @@ export let RobotButtons: Map<string, ButtonData> = new Map<string, ButtonData>([
       description: "Build an iron ore miner",
       inputs: [{input: "Energy", amount: 5}, {input: "Iron", amount: 5}],
       outputs: [{output: "Iron Ore", amount: 2}],
-      sustain: {interval: 250, totalTime: 6000},
+      sustain: {interval: 100, totalTime: 2400},
       disabled: false,
       unlocked: true
     }

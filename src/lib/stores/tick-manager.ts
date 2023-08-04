@@ -15,8 +15,8 @@ function createTickManager() {
         return tickStore;
       });
     },
-    getTickSpeed: () => {
-      return TickState.tickSpeed;
+    convertTicksToSeconds: (ticks: number) => {
+      return ticks / (1000 / TickState.tickSpeed);
     },
     getCurrentTick: () => {
       return TickState.currentTick;

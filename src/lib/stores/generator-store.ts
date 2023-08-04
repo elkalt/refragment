@@ -22,8 +22,8 @@ function createGeneratorStore() {
       let generator = Generators.get(generatorName);
       if (!generator) throw new Error("Generator does not exist: " + generatorName);
 
-      generator!.amount += amount;
-      generator!.activated.push(TickManager.getCurrentTick());
+      generator.amount += amount;
+      generator.created.push(TickManager.getCurrentTick());
       update(() => Generators);
     },
     decrement: (generatorName: string, amount: number) => {
@@ -43,10 +43,10 @@ function createGeneratorStore() {
     activate: (generatorName: string, amount: number) => {
       let generator = Generators.get(generatorName);
       if (generator) {
-        let available = generator.amount - generator.activated.length;
+        let available = generator.amount - generator.created.length;
         let currentTick = TickManager.getCurrentTick();
         for (let i = 0; i < Math.min(amount, available); i++) {
-          generator.activated.push(currentTick);
+          generator.created.push(currentTick);
         }
         update(() => Generators);
       } else throw new Error("Generator does not exist: " + generatorName);
@@ -54,9 +54,9 @@ function createGeneratorStore() {
     deactivate: (generatorName: string, amount: number) => {
       let generator = Generators.get(generatorName);
       if (generator) {
-        let available = generator.activated.length;
+        let available = generator.created!.length;
         for (let i = 0; i < Math.min(amount, available); i++) {
-          generator.activated.pop();
+          generator.created.pop();
         }
         update(() => Generators);
       } else throw new Error("Generator does not exist: " + generatorName);
@@ -64,7 +64,7 @@ function createGeneratorStore() {
 
     tickUpdate: (currentTick: number) => {
       for (let generator of Generators.values()) {
-        for (let activated of generator.activated) {
+        for (let activated of generator.created) {
           let elapsed = currentTick - activated;
           if (elapsed !== 0 && elapsed % generator.interval === 0 && isSatisfied(generator)) {
             for (let input of generator.inputs) {

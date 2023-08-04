@@ -21,9 +21,6 @@
 	let progressWidth: number;
 	$: {
 		if (cooldown && timeCost) {
-			if (cooldown === timeCost) {
-
-			}
 			progressWidth = (cooldown / timeCost * 100);
 		} else {
 			progressWidth = 0;
@@ -80,14 +77,18 @@
 			<div class="recipe-container">
 				<div class="recipe-column-container input">
 					{#each inputs as input}
-						<div>{input.amount} {input.input}</div>
+						{#if input.input === "Time"}
+							<div>{TickManager.convertTicksToSeconds(input.amount)}s</div>
+						{:else}
+							<div>{input.amount} {input.input}</div>
+						{/if}
 					{/each}
 				</div>
 				<div class="recipe-column-container">
 					<div>-></div>
 					{#if sustain}
-						<div class="sustain">/{sustain.interval / TickManager.getTickSpeed()}s</div>
-						<div class="sustain">{sustain.totalTime / TickManager.getTickSpeed()}s</div>
+						<div class="sustain">/{TickManager.convertTicksToSeconds(sustain.interval)}s</div>
+						<div class="sustain">{TickManager.convertTicksToSeconds(sustain.totalTime)}s</div>
 					{/if}
 				</div>
 				<div class="recipe-column-container output">
