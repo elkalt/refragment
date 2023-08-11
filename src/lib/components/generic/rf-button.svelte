@@ -32,8 +32,9 @@
 		let buttonRect = button.getBoundingClientRect();
 
 		tooltipX = buttonRect.left;
-		tooltipY = buttonRect.top + (buttonRect.height * 1.2);
-		tooltipWidth = buttonRect.width;
+		tooltipY = buttonRect.top + (buttonRect.height * 1);
+		// -2 to the width to account for border
+		tooltipWidth = buttonRect.width - 2;
 		isHovered = true;
 	}
 
@@ -58,6 +59,7 @@
 		<button
 			style:background-color="{disabled ? 'var(--background-dark)' : (!disabled && isHovered ? 'var(--background-light)' : '')}"
 			style:color="{disabled ? 'var(--accent-dark)' : ''}"
+			style:border-bottom="{isHovered ? disabled ? '1px solid var(--background-dark)' : '1px solid var(--background-light)' : ''}"
 			on:click={() => handleClick()}>
 			{name}
 		</button>
@@ -68,6 +70,7 @@
 {#if isHovered}
 	<div
 		class="tooltip-container"
+		style:background-color="{disabled ? 'var(--background-dark)' : 'var(--background-light)'}"
 		style:top="{tooltipY}px"
 		style:left="{tooltipX}px"
 		style:width="{tooltipWidth}px">
@@ -110,8 +113,8 @@
 
 	.tooltip-container {
 		position: absolute;
-		background-color: var(--background);
 		border: 1px solid var(--accent);
+		border-top: 0;
 		font-weight: 400;
 		font-size: 0.9rem;
 
