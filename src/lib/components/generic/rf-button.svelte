@@ -53,13 +53,13 @@
 	}
 </script>
 
-<div>
+<div
+	bind:this={button}>
 	<div
 		role="tooltip"
 		on:focus={() => isHovered = true}
 		on:mouseover={() => isHovered = true}
-		on:mouseleave={() => isHovered = false}
-		bind:this={button}> 
+		on:mouseleave={() => isHovered = false}> 
 		<button
 			style:background-color="{disabled ? 'var(--background-dark)' : (!disabled && isHovered ? 'var(--background-light)' : '')}"
 			style:color="{disabled ? 'var(--accent-dark)' : ''}"
