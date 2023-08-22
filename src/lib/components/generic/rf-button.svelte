@@ -11,6 +11,7 @@
 	export let disabled: boolean;
 
 	let isHovered = false;
+	// TODO: the binding on this button doesn't update when the window is resized
 	let button: HTMLDivElement;
 	let buttonRect: DOMRect;
 	$: {
