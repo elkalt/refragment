@@ -64,8 +64,8 @@ function createGeneratorStore() {
 
     tickUpdate: (currentTick: number) => {
       for (let generator of Generators.values()) {
-        for (let activated of generator.created) {
-          let elapsed = currentTick - activated;
+        for (let created of generator.created) {
+          let elapsed = currentTick - created;
           if (elapsed !== 0 && elapsed % generator.interval === 0 && isSatisfied(generator)) {
             for (let input of generator.inputs) {
               ResourceStore.decrement(input.input, input.amount);

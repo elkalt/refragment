@@ -11,9 +11,26 @@
 	export let disabled: boolean;
 
 	let isHovered = false;
-	let tooltipX: number;
-	let tooltipY: number;
-	let tooltipWidth: number;
+	let button: HTMLDivElement;
+	let buttonRect: DOMRect;
+	$: {
+		if (button) {
+			buttonRect = button.getBoundingClientRect();
+		}
+	}
+	let tooltipHeight: number;
+
+	// The progress dimensions can't be calculated directly in the style bindings because the buttonRect can be undefined
+	let progressHeight: number;
+	let progressTop: number;
+	let progressLeft: number;
+	$: {
+		if (buttonRect) {
+			progressHeight = isHovered ? buttonRect.height + tooltipHeight : buttonRect.height;
+			progressTop = buttonRect.top;
+			progressLeft = buttonRect.left;
+		}
+	}
 
 	let dispatch = createEventDispatcher();
 
@@ -21,26 +38,11 @@
 	let progressWidth: number;
 	$: {
 		if (cooldown && timeCost) {
-			progressWidth = (cooldown / timeCost * 100);
+			progressWidth = (cooldown / timeCost) * buttonRect.width;
 		} else {
 			progressWidth = 0;
 		}
 	};
-
-	function mouseOver(event: MouseEvent) {
-		let button = event.target as HTMLButtonElement;
-		let buttonRect = button.getBoundingClientRect();
-
-		tooltipX = buttonRect.left;
-		tooltipY = buttonRect.top + (buttonRect.height * 1);
-		// -2 to the width to account for border
-		tooltipWidth = buttonRect.width - 2;
-		isHovered = true;
-	}
-
-	function mouseLeave() {
-		isHovered = false;
-	}
 
 	function handleClick() {
 		if (disabled) {
@@ -54,26 +56,34 @@
 	<div
 		role="tooltip"
 		on:focus={() => isHovered = true}
-		on:mouseover={mouseOver}
-		on:mouseleave={mouseLeave}> 
+		on:mouseover={() => isHovered = true}
+		on:mouseleave={() => isHovered = false}
+		bind:this={button}> 
 		<button
 			style:background-color="{disabled ? 'var(--background-dark)' : (!disabled && isHovered ? 'var(--background-light)' : '')}"
 			style:color="{disabled ? 'var(--accent-dark)' : ''}"
 			style:border-bottom="{isHovered ? disabled ? '1px solid var(--background-dark)' : '1px solid var(--background-light)' : ''}"
-			on:click={() => handleClick()}>
+			on:click={handleClick}>
 			{name}
 		</button>
 	</div>
-	<div style:width="{progressWidth}%" class="progress-bar"></div>
+	<div
+		style:width="{progressWidth}px"
+		style:top="{progressTop}px"
+		style:left="{progressLeft}px"
+		style:height="{progressHeight}px"
+		class="progress-bar">
+	</div>
 </div>
 
 {#if isHovered}
 	<div
 		class="tooltip-container"
 		style:background-color="{disabled ? 'var(--background-dark)' : 'var(--background-light)'}"
-		style:top="{tooltipY}px"
-		style:left="{tooltipX}px"
-		style:width="{tooltipWidth}px">
+		style:top="{buttonRect.top + buttonRect.height - 1}px"
+		style:left="{buttonRect.left}px"
+		style:width="{buttonRect.width - 1.5}px"
+		bind:clientHeight={tooltipHeight}>
 		<div class="tooltip">
 			{tooltip}
 			<hr>
@@ -107,8 +117,11 @@
 <style lang="scss">
 	@import '/src/lib/styles/variables.scss';
 	.progress-bar {
-		height: 0.2rem;
+		position: absolute;
+		opacity: 0.5;
 		background-color: var(--accent);
+		pointer-events: none;
+		z-index: 1;
 	}
 
 	.tooltip-container {
@@ -117,6 +130,7 @@
 		border-top: 0;
 		font-weight: 400;
 		font-size: 0.9rem;
+		z-index: 0;
 
 		.tooltip {
 			padding: 1rem;

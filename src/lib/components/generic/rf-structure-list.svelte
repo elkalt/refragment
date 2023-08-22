@@ -2,7 +2,7 @@
   import type { Structure } from "$lib/interfaces/structure";
   import { createEventDispatcher } from "svelte";
   import { ResourceStore } from "$lib/stores/resource-store";
-    import RfStructureManager from "./rf-structure-manager.svelte";
+  import RfStructureManager from "./rf-structure-manager.svelte";
 
   export let title: string = "";
   export let columns: number;
@@ -39,7 +39,7 @@
     {#if structureData && structureData.unlocked}
       <RfStructureManager
         on:click={(event) => dispatch("click", {name: name, amount: event.detail.amount})}
-        active={structureData.activated ? structureData.activated.length : 0}
+        active={structureData.created ? structureData.created.length : 0}
         max={structureData.amount}>
       </RfStructureManager>
     {/if}
