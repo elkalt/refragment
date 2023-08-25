@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
+	import { createEventDispatcher, onMount } from "svelte";
 	import { TickManager } from "$lib/stores/tick-manager";
 
 	export let name: string;
@@ -11,14 +11,8 @@
 	export let disabled: boolean;
 
 	let isHovered = false;
-	// TODO: the binding on this button doesn't update when the window is resized
 	let button: HTMLDivElement;
 	let buttonRect: DOMRect;
-	$: {
-		if (button) {
-			buttonRect = button.getBoundingClientRect();
-		}
-	}
 	let tooltipHeight: number;
 
 	// The progress dimensions can't be calculated directly in the style bindings because the buttonRect can be undefined
@@ -32,6 +26,13 @@
 			progressLeft = buttonRect.left;
 		}
 	}
+
+	onMount(() => {
+		buttonRect = button.getBoundingClientRect();
+		window.addEventListener("resize", () => {
+			if (button) buttonRect = button.getBoundingClientRect();
+		});
+	});
 
 	let dispatch = createEventDispatcher();
 
@@ -53,20 +54,21 @@
 	}
 </script>
 
-<div
-	bind:this={button}>
-	<div
-		role="tooltip"
-		on:focus={() => isHovered = true}
-		on:mouseover={() => isHovered = true}
-		on:mouseleave={() => isHovered = false}> 
-		<button
-			style:background-color="{disabled ? 'var(--background-dark)' : (!disabled && isHovered ? 'var(--background-light)' : '')}"
-			style:color="{disabled ? 'var(--accent-dark)' : ''}"
-			style:border-bottom="{isHovered ? disabled ? '1px solid var(--background-dark)' : '1px solid var(--background-light)' : ''}"
-			on:click={handleClick}>
-			{name}
-		</button>
+<div>
+	<div bind:this={button}>
+		<div
+			role="tooltip"
+			on:focus={() => isHovered = true}
+			on:mouseover={() => isHovered = true}
+			on:mouseleave={() => isHovered = false}> 
+			<button
+				style:background-color="{disabled ? 'var(--background-dark)' : (!disabled && isHovered ? 'var(--background-light)' : '')}"
+				style:color="{disabled ? 'var(--accent-dark)' : ''}"
+				style:border-bottom="{isHovered ? disabled ? '1px solid var(--background-dark)' : '1px solid var(--background-light)' : ''}"
+				on:click={handleClick}>
+				{name}
+			</button>
+		</div>
 	</div>
 	<div
 		style:width="{progressWidth}px"
