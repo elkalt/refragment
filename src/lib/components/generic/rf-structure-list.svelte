@@ -39,8 +39,7 @@
     {#if structureData && structureData.unlocked}
       <RfStructureManager
         on:click={(event) => dispatch("click", {name: name, amount: event.detail.amount})}
-        active={structureData.created ? structureData.created.length : 0}
-        max={structureData.amount}>
+        structure={structureData}>
       </RfStructureManager>
     {/if}
   {/each}

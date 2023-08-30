@@ -1,21 +1,41 @@
 <script lang="ts">
+  import type { Structure } from "$lib/interfaces/structure";
   import { createEventDispatcher } from "svelte";
 
-  export let active: number;
-  export let max: number;
+  export let structure: Structure;
 
+  let activeHovered = false;
   let oneHovered = false;
   let tenHovered = false;
   let minusOneHovered = false;
   let minusTenHovered = false;
 
+  let active: number;
+  $: {
+    active = structure.created.length;
+  }
+
   let dispatch = createEventDispatcher();
 </script>
 
-<div class="structure-container">
+<div class="structure-container"
+  role="status"
+  on:mouseenter={() => activeHovered = true}
+  on:mouseleave={() => activeHovered = false}>
   <div>
-    Active: {active} / {max}
+    Active: {active} / {structure.amount}
   </div>
+  {#if activeHovered}
+    <div>
+      {#each structure.inputs as input}
+        {input.amount * active} {input.input}
+      {/each}
+      =>
+      {#each structure.outputs as output}
+        {output.amount * active} {output.output}
+      {/each}
+    </div>
+  {/if}
   <div class="adjust-container">
     <button
       on:mouseenter={() => oneHovered = true}
