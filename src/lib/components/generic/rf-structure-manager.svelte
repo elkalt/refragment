@@ -26,14 +26,18 @@
     Active: {active} / {structure.amount}
   </div>
   {#if activeHovered}
-    <div>
-      {#each structure.inputs as input}
-        {input.amount * active} {input.input}
-      {/each}
-      =>
-      {#each structure.outputs as output}
-        {output.amount * active} {output.output}
-      {/each}
+    <div class="exchange-container">
+      <div class="resource-container">
+        {#each structure.inputs as input}
+          <div>{input.amount * active} {input.input}</div>
+        {/each}
+      </div>
+      ->
+      <div class="resource-container">
+        {#each structure.outputs as output}
+          <div>{output.amount * active} {output.output}</div>
+        {/each}
+      </div>
     </div>
   {/if}
   <div class="adjust-container">
@@ -83,6 +87,19 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
+
+    .exchange-container {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      align-items: center;
+
+      .resource-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
 
     .adjust-container {
       display: grid;
