@@ -1,8 +1,8 @@
-import type { Resource } from "./resource";
-
-export interface Structure extends Resource {
+export interface StructureListData {
+  unlocked: boolean;
+  structure: string;
+  created: number[];
   inputs: {input: string, amount: number}[];
   outputs: {output: string, amount: number}[];
   interval: number;
-  created: number[];
 }

@@ -8,7 +8,7 @@ export enum GeneratorButtonTypes {
 
 export let GeneratorButtons: Map<string, ButtonData> = new Map([
   [
-    "Boiler",
+    GeneratorButtonTypes.Boiler,
     {
       description: "A boiler that burns coal to generate energy",
       inputs: [{input: ResourceEnum.Coal, amount: 10}, {input: ResourceEnum.Iron, amount: 10}],
