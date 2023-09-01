@@ -1,18 +1,23 @@
 <script lang="ts">
-  import type { Structure } from "$lib/interfaces/structure";
+  import type { StructureListData } from "$lib/interfaces/structure-list-data";
   import { createEventDispatcher } from "svelte";
+  import { GeneratorStore } from "$lib/stores/generator-store";
+  import type { Resource } from "$lib/interfaces/resource";
 
-  export let structure: Structure;
+  export let structureData: StructureListData;
 
   let activeHovered = false;
   let oneHovered = false;
   let tenHovered = false;
   let minusOneHovered = false;
   let minusTenHovered = false;
+  
+  let structure: Resource;
+  $: structure = $GeneratorStore.get(structureData.structure)!
 
   let active: number;
   $: {
-    active = structure.created.length;
+    active = structureData.created.length;
   }
 
   let dispatch = createEventDispatcher();
@@ -28,13 +33,13 @@
   {#if activeHovered}
     <div class="exchange-container">
       <div class="resource-container">
-        {#each structure.inputs as input}
+        {#each structureData.inputs as input}
           <div>{input.amount * active} {input.input}</div>
         {/each}
       </div>
       ->
       <div class="resource-container">
-        {#each structure.outputs as output}
+        {#each structureData.outputs as output}
           <div>{output.amount * active} {output.output}</div>
         {/each}
       </div>

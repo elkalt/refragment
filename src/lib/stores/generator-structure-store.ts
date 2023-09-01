@@ -19,21 +19,25 @@ function createGeneratorStructureStore() {
       let generator = GeneratorStructureData.get(generatorName);
       if (!generator) throw new Error("Generator does not exist: " + generatorName);
 
-      generator.created.push(TickManager.getCurrentTick());
+      for (let i = 0; i < amount; i++) {
+        generator.created.push(TickManager.getCurrentTick());
+      }
       update(() => GeneratorStructureData);
     },
     decrement: (generatorName: string, amount: number) => {
       let generator = GeneratorStructureData.get(generatorName);
       if (!generator) throw new Error("Generator does not exist: " + generatorName);
 
-      generator.created.pop();
+      for (let i = 0; i < amount; i++) {
+        generator.created.pop();
+      }
       update(() => GeneratorStructureData);
     },
     tickUpdate: (currentTick: number) => {
-      for (let [, generator] of GeneratorStructureData) {
+      for (let [generatorName, generator] of GeneratorStructureData) {
         for (let startTick of generator.created) {
           let elapsedTicks = currentTick - startTick;
-          if (elapsedTicks >= generator.interval && inputsSatisfied(generator.inputs)) {
+          if (elapsedTicks !== 0 && elapsedTicks % generator.interval === 0 && inputsSatisfied(generator.inputs)) {
             for (let input of generator.inputs) {
               ResourceStore.decrement(input.input, input.amount);
             }
@@ -47,4 +51,4 @@ function createGeneratorStructureStore() {
   };
 }
 
-export let GeneratorStore = createGeneratorStructureStore();
+export let GeneratorStructureStore = createGeneratorStructureStore();
