@@ -1,10 +1,11 @@
 <script lang="ts">
   import type { StructureListData } from "$lib/interfaces/structure-list-data";
-  import { createEventDispatcher } from "svelte";
-  import { GeneratorStore } from "$lib/stores/generator-store";
   import type { Resource } from "$lib/interfaces/resource";
+  import { createEventDispatcher } from "svelte";
 
+  export let specializedName: string;
   export let structureData: StructureListData;
+  export let structureStore: Map<string, Resource>;
 
   let activeHovered = false;
   let oneHovered = false;
@@ -13,7 +14,7 @@
   let minusTenHovered = false;
   
   let structure: Resource;
-  $: structure = $GeneratorStore.get(structureData.structure)!
+  $: structure = structureStore.get(structureData.structure)!
 
   let active: number;
   $: {
@@ -27,8 +28,9 @@
   role="status"
   on:mouseenter={() => activeHovered = true}
   on:mouseleave={() => activeHovered = false}>
-  <div>
-    Active: {active} / {structure.amount}
+  <div class="info-container">
+    <div>{specializedName}</div>
+    <div class="sub-info">Active: {active} / {structure.amount}</div>
   </div>
   {#if activeHovered}
     <div class="exchange-container">
@@ -92,6 +94,17 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
+
+    .info-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .sub-info {
+        font-size: 0.8rem;
+        font-weight: 400;
+      }
+    }
 
     .exchange-container {
       display: flex;

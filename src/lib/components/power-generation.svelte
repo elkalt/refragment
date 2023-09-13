@@ -3,6 +3,7 @@
   import RfStructureList from "./generic/rf-structure-list.svelte";
   import { GeneratorButtonStore } from "$lib/stores/generator-button-store";
   import { GeneratorStructureStore } from "$lib/stores/generator-structure-store";
+  import { GeneratorStore } from "$lib/stores/generator-store";
 
   function adjustGenerators(generatorName: string, amount: number) {
     if (amount < 0) {
@@ -26,6 +27,7 @@
     <RfStructureList
       columns={1}
       structureDataStore={$GeneratorStructureStore}
+      structureStore={$GeneratorStore}
       on:click={(event) => adjustGenerators(event.detail.name, event.detail.amount)}>
     </RfStructureList>
   </div>
@@ -34,10 +36,5 @@
 <style lang="scss">
   h2 {
     margin-bottom: 1rem;
-  }
-  .structure-container {
-    display: grid;
-    grid-template-columns: 0.5fr 1fr;
-    gap: 1rem;
   }
 </style>
