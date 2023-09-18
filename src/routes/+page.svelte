@@ -7,6 +7,7 @@
   import { TickManager } from '$lib/stores/tick-manager';
   import { ResourceStore } from '$lib/stores/resource-store';
   import { GeneratorStore } from '$lib/stores/generator-store';
+  import { FabricatorStore } from '$lib/stores/fabricator-store';
   
   let modules = [
     "Power Generation",
@@ -15,7 +16,6 @@
   ]
 
   let currentModule = "Control Room"
-
   setInterval(() => {
     TickManager.updateTick();
   }, $TickManager.tickSpeed);
@@ -55,7 +55,7 @@
     <div>
       <RfResourceList
         title="Fabricators"
-        resourceStore={$ResourceStore}>
+        resourceStore={$FabricatorStore}>
       </RfResourceList>
     </div>
   </div>
@@ -84,15 +84,15 @@
 .content-container {
   display: grid;
   padding-top: 2rem;
-  grid-template-columns: 1fr 0.25fr 2fr 0.25fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr;
   grid-template-rows: 1fr;
   grid-column-gap: 1rem;
   grid-row-gap: 1rem;
 
-  .resources { grid-area: 1 / 1 / 3 / 2; }
-  .main-area { grid-area: 1 / 3 / 2 / 4; }
+  .resources { grid-area: 1 / 1 / 2 / 2; }
+  .main-area { grid-area: 1 / 2 / 2 / 3; }
   .automatics {
-    grid-area: 1 / 5 / 2 / 6;
+    grid-area: 1 / 3 / 2 / 4;
     display: flex;
     flex-direction: column;
     gap: 1rem;

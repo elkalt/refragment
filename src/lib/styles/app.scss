@@ -43,3 +43,10 @@ button {
     padding: 1rem;
   }
 }
+
+.structure-container {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+  gap: 1rem;
+  align-items: baseline;
+}

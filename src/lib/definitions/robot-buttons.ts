@@ -22,7 +22,7 @@ export let RobotButtons: Map<string, ButtonData> = new Map<string, ButtonData>([
     RobotButtonEnum.IronMiner,
     {
       description: "Build an iron ore miner",
-      inputs: [{input: ResourceEnum.Coal, amount: 5}, {input: ResourceEnum.Iron, amount: 5}],
+      inputs: [{input: ResourceEnum.Energy, amount: 5}, {input: ResourceEnum.Iron, amount: 5}],
       outputs: [{output: ResourceEnum.IronOre, amount: 2}],
       sustain: {interval: 100, totalTime: 2400},
       disabled: false,
