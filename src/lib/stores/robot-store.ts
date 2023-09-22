@@ -2,7 +2,7 @@ import { writable } from "svelte/store";
 import { Robots } from "$lib/definitions/robots";
 import { RobotButtonStore } from "./robot-button-store";
 import { TickManager } from "./tick-manager";
-import { ResourceStore } from "./resource-store";
+import { ResourcesStore } from "./resources-store";
 
 function createRobotStore() {
   let {subscribe, update} = writable(Robots);
@@ -33,7 +33,7 @@ function createRobotStore() {
             let elapsedTicks = currentTick - startTick;
             if (elapsedTicks !== 0 && elapsedTicks % sustainInfo.sustain!.interval === 0) {
               for (let output of sustainInfo.outputs) {
-                ResourceStore.increment(output.output, output.amount);
+                ResourcesStore.increment(output.output, output.amount);
               }
             }
             if (elapsedTicks === sustainInfo.sustain!.totalTime) {

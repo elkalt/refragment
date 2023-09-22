@@ -1,14 +1,14 @@
 import { writable } from "svelte/store";
 import { GeneratorStructureData } from "$lib/definitions/generator-structures";
 import { TickManager } from "./tick-manager";
-import { ResourceStore } from "./resource-store";
+import { ResourcesStore } from "./resources-store";
 
 function createGeneratorStructureStore() {
   let {subscribe, update} = writable(GeneratorStructureData);
 
   function inputsSatisfied(inputs: {input: string, amount: number}[]) {
     for (let input of inputs) {
-      if (input.amount > ResourceStore.getAmount(input.input)) return false;
+      if (input.amount > ResourcesStore.getAmount(input.input)) return false;
     }
     return true;
   }
@@ -39,10 +39,10 @@ function createGeneratorStructureStore() {
           let elapsedTicks = currentTick - startTick;
           if (elapsedTicks !== 0 && elapsedTicks % generator.interval === 0 && inputsSatisfied(generator.inputs)) {
             for (let input of generator.inputs) {
-              ResourceStore.decrement(input.input, input.amount);
+              ResourcesStore.decrement(input.input, input.amount);
             }
             for (let output of generator.outputs) {
-              ResourceStore.increment(output.output, output.amount);
+              ResourcesStore.increment(output.output, output.amount);
             }
           }
         }

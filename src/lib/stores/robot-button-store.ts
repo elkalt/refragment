@@ -1,6 +1,6 @@
 import { RobotButtons } from "$lib/definitions/robot-buttons";
 import { writable } from "svelte/store";
-import { ResourceStore } from "./resource-store";
+import { ResourcesStore } from "./resources-store";
 import { RobotStore } from "./robot-store";
 
 function createRobotButtonStore() {
@@ -26,7 +26,7 @@ function createRobotButtonStore() {
             robotButton.cooldown = input.amount;
             update(() => RobotButtons);
           } else {
-            ResourceStore.decrement(input.input, input.amount);
+            ResourcesStore.decrement(input.input, input.amount);
           }
         }
         RobotStore.increment(robotButtonName, 1);

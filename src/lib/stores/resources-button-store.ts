@@ -1,8 +1,8 @@
 import { ResourceButtons } from "$lib/definitions/resource-buttons";
 import { writable } from "svelte/store";
-import { ResourceStore } from "./resource-store";
+import { ResourcesStore } from "./resources-store";
 
-function createResourceButtonStore() {
+function createResourcesButtonStore() {
   let {subscribe, update} = writable(ResourceButtons);
 
   return {
@@ -25,11 +25,11 @@ function createResourceButtonStore() {
             resourceButton.cooldown = input.amount;
             update(() => ResourceButtons);
           } else { 
-            ResourceStore.decrement(input.input, input.amount);
+            ResourcesStore.decrement(input.input, input.amount);
           }
         }
         for (let output of resourceButton.outputs) {
-          ResourceStore.increment(output.output, output.amount);
+          ResourcesStore.increment(output.output, output.amount);
         }
       } else {
         throw new Error("Manual resource does not exist: " + resourceButtonName);
@@ -54,4 +54,4 @@ function createResourceButtonStore() {
   }
 }
 
-export let ResourceButtonStore = createResourceButtonStore();
+export let ResourcesButtonStore = createResourcesButtonStore();

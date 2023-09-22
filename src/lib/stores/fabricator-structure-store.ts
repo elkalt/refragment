@@ -1,14 +1,14 @@
 import { writable } from "svelte/store";
 import { FabricatorStructureData } from "$lib/definitions/fabricator-structures";
 import { TickManager } from "./tick-manager";
-import { ResourceStore } from "./resource-store";
+import { ResourcesStore } from "./resources-store";
 
 function createFabricatorStructureStore() {
   let {subscribe, update} = writable(FabricatorStructureData);
 
   function inputsSatisfied(inputs: {input: string, amount: number}[]) {
     for (let input of inputs) {
-      if (input.amount > ResourceStore.getAmount(input.input)) return false;
+      if (input.amount > ResourcesStore.getAmount(input.input)) return false;
     }
     return true;
   }
@@ -39,10 +39,10 @@ function createFabricatorStructureStore() {
           let elapsedTicks = currentTick - startTick;
           if (elapsedTicks !== 0 && elapsedTicks % fabricator.interval === 0 && inputsSatisfied(fabricator.inputs)) {
             for (let input of fabricator.inputs) {
-              ResourceStore.decrement(input.input, input.amount);
+              ResourcesStore.decrement(input.input, input.amount);
             }
             for (let output of fabricator.outputs) {
-              ResourceStore.increment(output.output, output.amount);
+              ResourcesStore.increment(output.output, output.amount);
             }
           }
         }

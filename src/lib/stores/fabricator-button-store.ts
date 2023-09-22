@@ -1,7 +1,7 @@
 import { FabricatorButtons } from "$lib/definitions/fabricator-buttons";
 import { writable } from "svelte/store";
 import { FabricatorStore } from "./fabricator-store";
-import { ResourceStore } from "./resource-store";
+import { ResourcesStore } from "./resources-store";
 
 function createFabricatorButtonStore() {
   let {subscribe, update} = writable(FabricatorButtons);
@@ -30,7 +30,7 @@ function createFabricatorButtonStore() {
               update(() => FabricatorButtons);
             }, input.amount * 1000);
           } else { 
-            ResourceStore.decrement(input.input, input.amount);
+            ResourcesStore.decrement(input.input, input.amount);
           }
         }
         for (let output of fabricatorButton.outputs) {

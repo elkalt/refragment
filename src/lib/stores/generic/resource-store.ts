@@ -1,7 +1,7 @@
+import type { Resource } from "$lib/interfaces/resource";
 import { writable } from "svelte/store";
-import { Resources } from "$lib/definitions/resources";
 
-function createResourceStore() {
+export function createResourceStore(Resources: Map<string,Resource>, ) {
   let {subscribe, update} = writable(Resources);
 
   return {
@@ -28,5 +28,3 @@ function createResourceStore() {
     }
   }
 }
-
-export let ResourceStore = createResourceStore();
