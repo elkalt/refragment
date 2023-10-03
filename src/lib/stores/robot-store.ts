@@ -4,6 +4,9 @@ import { RobotButtonStore } from "./robot-button-store";
 import { TickManager } from "./tick-manager";
 import { ResourcesStore } from "./resources-store";
 
+// TODO: Refactor this to be a structure that expires after a certain amount of time
+// (or something else that works with the new generic stores)
+
 function createRobotStore() {
   let {subscribe, update} = writable(Robots);
 
