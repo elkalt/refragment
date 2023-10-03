@@ -2,6 +2,7 @@ import { writable } from "svelte/store";
 import { GeneratorStructureData } from "$lib/definitions/generator-structures";
 import { TickManager } from "./tick-manager";
 import { ResourcesStore } from "./resources-store";
+import { GeneratorStore } from "./generator-store";
 
 function createGeneratorStructureStore() {
   let {subscribe, update} = writable(GeneratorStructureData);
@@ -19,8 +20,10 @@ function createGeneratorStructureStore() {
       let generator = GeneratorStructureData.get(generatorName);
       if (!generator) throw new Error("Generator does not exist: " + generatorName);
 
-      for (let i = 0; i < amount; i++) {
-        generator.created.push(TickManager.getCurrentTick());
+      let toPush = Math.min(amount, GeneratorStore.getAmount(generatorName) - generator.created.length);
+      let currentTick = TickManager.getCurrentTick();
+      for (let i = 0; i < toPush; i++) {
+        generator.created.push(currentTick);
       }
       update(() => GeneratorStructureData);
     },
@@ -28,7 +31,9 @@ function createGeneratorStructureStore() {
       let generator = GeneratorStructureData.get(generatorName);
       if (!generator) throw new Error("Generator does not exist: " + generatorName);
 
-      for (let i = 0; i < amount; i++) {
+      let toPop = Math.min(Math.abs(amount), generator.created.length);
+      console.log(toPop)
+      for (let i = 0; i < toPop; i++) {
         generator.created.pop();
       }
       update(() => GeneratorStructureData);

@@ -9,7 +9,7 @@
     if (amount < 0) {
       GeneratorStructureStore.decrement(generatorName, amount);
     } else {
-      GeneratorStructureStore.increment(generatorName, amount)
+      GeneratorStructureStore.increment(generatorName, amount);
     }
   }
 </script>

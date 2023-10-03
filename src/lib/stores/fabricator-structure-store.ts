@@ -2,6 +2,7 @@ import { writable } from "svelte/store";
 import { FabricatorStructureData } from "$lib/definitions/fabricator-structures";
 import { TickManager } from "./tick-manager";
 import { ResourcesStore } from "./resources-store";
+import { FabricatorStore } from "./fabricator-store";
 
 function createFabricatorStructureStore() {
   let {subscribe, update} = writable(FabricatorStructureData);
@@ -17,18 +18,22 @@ function createFabricatorStructureStore() {
     subscribe,
     increment: (fabricatorName: string, amount: number) => {
       let fabricator = FabricatorStructureData.get(fabricatorName);
-      if (!fabricator) throw new Error("Fabricator does not exist: " + fabricatorName);
+      if (!fabricator) throw new Error("fabricator does not exist: " + fabricatorName);
 
-      for (let i = 0; i < amount; i++) {
-        fabricator.created.push(TickManager.getCurrentTick());
+      let toPush = Math.min(amount, FabricatorStore.getAmount(fabricatorName) - fabricator.created.length);
+      let currentTick = TickManager.getCurrentTick();
+      for (let i = 0; i < toPush; i++) {
+        fabricator.created.push(currentTick);
       }
       update(() => FabricatorStructureData);
     },
     decrement: (fabricatorName: string, amount: number) => {
       let fabricator = FabricatorStructureData.get(fabricatorName);
-      if (!fabricator) throw new Error("Fabricator does not exist: " + fabricatorName);
+      if (!fabricator) throw new Error("fabricator does not exist: " + fabricatorName);
 
-      for (let i = 0; i < amount; i++) {
+      let toPop = Math.min(Math.abs(amount), fabricator.created.length);
+      console.log(toPop)
+      for (let i = 0; i < toPop; i++) {
         fabricator.created.pop();
       }
       update(() => FabricatorStructureData);
