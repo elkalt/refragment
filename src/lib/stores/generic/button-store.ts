@@ -11,8 +11,8 @@ export interface ButtonStore {
 
 export function createButtonStore(
   resourceButtons: Map<string, ButtonData>,
-  inputs: ResourceStore[],
-  outputs: ResourceStore[])
+  inputStores: ResourceStore[],
+  outputStores: ResourceStore[])
 {
   let {subscribe, update} = writable(resourceButtons);
 
@@ -36,14 +36,14 @@ export function createButtonStore(
             resourceButton.cooldown = input.amount;
             update(() => resourceButtons);
           } else { 
-            for (let inputMap of inputs) {
-              if (inputMap.contains(input.input)) inputMap.decrement(input.input, input.amount);
+            for (let inputStore of inputStores) {
+              if (inputStore.contains(input.input)) inputStore.decrement(input.input, input.amount);
             }
           }
         }
         for (let output of resourceButton.outputs) {
-          for (let outputMap of outputs) {
-           if (outputMap.contains(output.output)) outputMap.increment(output.output, output.amount);
+          for (let outputStore of outputStores) {
+           if (outputStore.contains(output.output)) outputStore.increment(output.output, output.amount);
           }
         }
       } else {
