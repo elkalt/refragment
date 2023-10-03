@@ -1,7 +1,15 @@
+import type { Resource } from "$lib/interfaces/resource";
 import { writable } from "svelte/store";
-import { Resources } from "$lib/definitions/resources";
 
-function createResourceStore() {
+export interface ResourceStore {
+  subscribe: (run: (value: Map<string, Resource>) => void, invalidate?: (value?: Map<string, Resource>) => void) => () => void;
+  increment: (resourceName: string, amount: number) => void;
+  decrement: (resourceName: string, amount: number) => void;
+  getAmount: (resourceName: string) => number;
+  contains: (resourceName: string) => boolean;
+}
+
+export function createResourceStore(Resources: Map<string,Resource>, ) {
   let {subscribe, update} = writable(Resources);
 
   return {
@@ -25,8 +33,10 @@ function createResourceStore() {
       if (!resource) throw new Error("Resource does not exist: " + resourceName);
 
       return resource!.amount;
+    },
+    contains: (resourceName: string) => {
+      let resource = Resources.get(resourceName);
+      return resource !== undefined;
     }
   }
 }
-
-export let ResourceStore = createResourceStore();

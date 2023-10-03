@@ -5,7 +5,7 @@
   import ControlRoom from '$lib/components/control-room.svelte';
   import PowerGeneration from '$lib/components/power-generation.svelte';
   import { TickManager } from '$lib/stores/tick-manager';
-  import { ResourceStore } from '$lib/stores/resource-store';
+  import { ResourcesStore } from '$lib/stores/resources-store';
   import { GeneratorStore } from '$lib/stores/generator-store';
   import { FabricatorStore } from '$lib/stores/fabricator-store';
   
@@ -31,7 +31,7 @@
   <div class="resources">
     <RfResourceList
       title="Resources"
-      resourceStore={$ResourceStore}>
+      resourceStore={$ResourcesStore}>
     </RfResourceList>
   </div>
   

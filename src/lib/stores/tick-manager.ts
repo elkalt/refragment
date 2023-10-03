@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import { ResourceButtonStore } from "./resource-button-store";
+import { ResourcesButtonStore } from "./resources-button-store";
 import { TickState } from "$lib/definitions/tick-state";
 import { RobotStore } from "./robot-store";
 import { GeneratorStructureStore } from "./generator-structure-store";
@@ -22,7 +22,7 @@ function createTickManager() {
       return TickState.currentTick;
     },
     updateTick: () => {
-      ResourceButtonStore.tickUpdate();
+      ResourcesButtonStore.tickUpdate();
       RobotStore.tickUpdate(TickState.currentTick);
       GeneratorStructureStore.tickUpdate(TickState.currentTick);
 

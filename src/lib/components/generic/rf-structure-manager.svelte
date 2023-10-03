@@ -17,9 +17,7 @@
   $: structure = structureStore.get(structureData.structure)!
 
   let active: number;
-  $: {
-    active = structureData.created.length;
-  }
+  $: active = structureData.created.length;
 
   let dispatch = createEventDispatcher();
 </script>

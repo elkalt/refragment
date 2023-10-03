@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { ButtonData } from "$lib/interfaces/button-data";
   import { createEventDispatcher } from "svelte";
-  import { ResourceStore } from "$lib/stores/resource-store";
+  import { ResourcesStore } from "$lib/stores/resources-store";
   import Button from "./rf-button.svelte";
 
   export let title: string = "";
@@ -19,7 +19,7 @@
         if (input.input === "Time") {
           continue;
         }
-        if (input.amount > $ResourceStore.get(input.input)!.amount) {
+        if (input.amount > $ResourcesStore.get(input.input)!.amount) {
           satisfied = false;
           break;
         }
