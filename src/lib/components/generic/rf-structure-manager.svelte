@@ -14,7 +14,7 @@
   let minusTenHovered = false;
   
   let structure: Resource;
-  $: structure = structureStore.get(structureData.structure)!
+  $: structure = structureStore.get(structureData.structure)!;
 
   let active: number;
   $: active = structureData.created.length;
@@ -28,7 +28,7 @@
   on:mouseleave={() => activeHovered = false}>
   <div class="info-container">
     <div>{specializedName}</div>
-    <div class="sub-info">Active: {active} / {structure.amount}</div>
+    <div class="sub-info">Active: {active} / {structure.amount + active}</div>
   </div>
   {#if activeHovered}
     <div class="exchange-container">

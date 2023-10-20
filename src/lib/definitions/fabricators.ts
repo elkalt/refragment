@@ -9,7 +9,7 @@ export let Fabricators: Map<string, Resource> = new Map([
     FabricatorEnum.Miner,
     {
       unlocked: true,
-      amount: 0
+      amount: 5
     }
   ],
 ]);
