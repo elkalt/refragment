@@ -13,7 +13,7 @@ export let ResourceButtons: Map<string, ButtonData> = new Map([
     {
       description: "Hand crank the generator",
       inputs: [{input: ResourceEnum.Time, amount: 100}],
-      outputs: [{output: ResourceEnum.Energy, amount: 1}],
+      outputs: [{output: ResourceEnum.Energy, amount: 100}],
       disabled: false,
       unlocked: true,
       cooldown: 0
