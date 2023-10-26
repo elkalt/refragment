@@ -1,5 +1,4 @@
 <script lang="ts">
-  import RfButtonList from "./generic/rf-button-list.svelte";
   import RfStructureList from "./generic/rf-structure-list.svelte";
   import { FabricatorButtonStore } from "$lib/stores/fabricator-button-store";
   import { FabricatorStructureStore } from "$lib/stores/fabricator-structure-store";
@@ -15,23 +14,14 @@
 </script>
 
 <h2>Fabricators</h2>
-<div class="structure-container">
-  <div class="buttons-container">
-    <RfButtonList
-      columns={1}
-      buttonStore={$FabricatorButtonStore}
-      on:click={(event) => FabricatorButtonStore.use(event.detail.name)}>
-    </RfButtonList>
-  </div>
-  <div class="buttons-container">
-    <RfStructureList
-      columns={1}
-      structureDataStore={$FabricatorStructureStore}
-      structureStore={$FabricatorStore}
-      on:click={(event) => adjustFabricators(event.detail.name, event.detail.amount)}>
-    </RfStructureList>
-  </div>
-</div>
+<RfStructureList
+  columns={1}
+  structureButtonStore={$FabricatorButtonStore}
+  structureDataStore={$FabricatorStructureStore}
+  structureStore={$FabricatorStore}
+  on:manager_click={(event) => adjustFabricators(event.detail.name, event.detail.amount)}
+  on:button_click={(event) => FabricatorButtonStore.use(event.detail.name)}>
+</RfStructureList>
 
 <style lang="scss">
   h2 {
