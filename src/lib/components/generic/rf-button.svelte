@@ -39,7 +39,9 @@
 	let timeCost = inputs.find(i => i.input === "Time")?.amount;
 	let progressWidth: number;
 	$: {
-		if (cooldown && timeCost) {
+		if (!buttonRect || !buttonRect.width) {
+			progressWidth = 0;
+		} else if (cooldown && timeCost) {
 			progressWidth = (cooldown / timeCost) * buttonRect.width;
 		} else {
 			progressWidth = 0;
