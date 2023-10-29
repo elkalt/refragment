@@ -15,6 +15,7 @@
 	let buttonRect: DOMRect;
 	let tooltipHeight: number;
 
+	// TODO: for some screen widths, the tootlip width is off by 0.5px
 	// The progress dimensions can't be calculated directly in the style bindings because the buttonRect can be undefined
 	let progressHeight: number;
 	let progressTop: number;
@@ -39,19 +40,14 @@
 	let timeCost = inputs.find(i => i.input === "Time")?.amount;
 	let progressWidth: number;
 	$: {
-		if (cooldown && timeCost) {
+		if (!buttonRect || !buttonRect.width) {
+			progressWidth = 0;
+		} else if (cooldown && timeCost) {
 			progressWidth = (cooldown / timeCost) * buttonRect.width;
 		} else {
 			progressWidth = 0;
 		}
 	};
-
-	function handleClick() {
-		if (disabled) {
-			return;
-		}
-		dispatch("click");
-	}
 </script>
 
 <div>
@@ -65,7 +61,7 @@
 				style:background-color="{disabled ? 'var(--background-dark)' : (!disabled && isHovered ? 'var(--background-light)' : '')}"
 				style:color="{disabled ? 'var(--accent-dark)' : ''}"
 				style:border-bottom="{isHovered ? disabled ? '1px solid var(--background-dark)' : '1px solid var(--background-light)' : ''}"
-				on:click={handleClick}>
+				on:click={() => disabled ? "" : dispatch("click")}>
 				{name}
 			</button>
 		</div>
