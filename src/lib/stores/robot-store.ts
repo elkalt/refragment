@@ -37,6 +37,7 @@ function createRobotStore() {
     tickUpdate: (currentTick: number) => {
       for (let robotName of Robots.keys()) {
         // TODO: Find a way to refactor this to remove the circular dependency
+        // Refactoring robots as structures instead of resources would likely fix it
         let sustainInfo = RobotButtonStore.getSustainInfo(robotName)!;
         if (sustainInfo) {
           for (let startTick of Robots.get(robotName)!.created!) {
