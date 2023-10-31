@@ -2,7 +2,6 @@ import type { StructureListData } from "$lib/interfaces/structure-list-data";
 import type { ResourceStore } from "./resource-store";
 import { createStore, type Store } from "./store";
 import { TickManager } from "../tick-manager";
-import { writable } from "svelte/store";
 
 export interface StructureStore extends Store {
   subscribe: (run: (value: Map<string, StructureListData>) => void, invalidate?: (value?: Map<string, StructureListData>) => void) => () => void;
@@ -61,7 +60,6 @@ export function createStructureStore(
     tickUpdate: (currentTick: number) => {
       for (let [structureName, structure] of StructureListData) {
         for (let startTick of structure.created) {
-
           let elapsedTicks = currentTick - startTick;
           if (elapsedTicks !== 0 && elapsedTicks % structure.interval === 0 && inputsSatisfied(structure.inputs)) {
             for (let inputStore of inputStores) {

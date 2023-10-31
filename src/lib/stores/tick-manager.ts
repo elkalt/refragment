@@ -4,6 +4,7 @@ import { TickState } from "$lib/definitions/tick-state";
 import { RobotStore } from "./robot-store";
 import { GeneratorStructureStore } from "./generator-structure-store";
 import { FabricatorStructureStore } from "./fabricator-structure-store";
+import { RobotStructureStore } from "./robot-structure-store";
 
 function createTickManager() {
   let { subscribe, update } = writable(TickState);
@@ -27,7 +28,7 @@ function createTickManager() {
 
     updateTick: () => {
       ResourcesButtonStore.tickUpdate();
-      RobotStore.tickUpdate(TickState.currentTick);
+      RobotStructureStore.tickUpdate(TickState.currentTick);
       GeneratorStructureStore.tickUpdate(TickState.currentTick);
       FabricatorStructureStore.tickUpdate(TickState.currentTick);
 

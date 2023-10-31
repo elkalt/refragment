@@ -14,10 +14,8 @@
   }
 
   function importSave() {
-    console.log($ResourcesStore.get("Energy"))
     let base64String = window.prompt('Please enter your save data:');
     if (base64String) B64ToCurrentState(base64String);
-    console.log($ResourcesStore.get("Energy"))
   }
 </script>
 

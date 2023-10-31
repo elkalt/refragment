@@ -17,7 +17,7 @@
     "Fabrication",
   ]
 
-  let currentModule = "config"
+  let currentModule = "Control Room"
   setInterval(() => {
     TickManager.updateTick();
   }, $TickManager.tickSpeed);
