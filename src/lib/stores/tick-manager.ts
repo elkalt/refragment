@@ -6,7 +6,7 @@ import { GeneratorStructureStore } from "./generator-structure-store";
 import { FabricatorStructureStore } from "./fabricator-structure-store";
 
 function createTickManager() {
-  let {subscribe, update } = writable(TickState);
+  let { subscribe, update } = writable(TickState);
 
   return {
     subscribe,
@@ -16,12 +16,15 @@ function createTickManager() {
         return tickStore;
       });
     },
+
     convertTicksToSeconds: (ticks: number) => {
       return ticks / (1000 / TickState.tickSpeed);
     },
+
     getCurrentTick: () => {
       return TickState.currentTick;
     },
+
     updateTick: () => {
       ResourcesButtonStore.tickUpdate();
       RobotStore.tickUpdate(TickState.currentTick);
@@ -32,6 +35,16 @@ function createTickManager() {
         tickStore.currentTick++;
         return tickStore;
       });
+    },
+
+    dump: (): any => {
+      return TickState;
+    },
+
+    overwrite: (newTickState: any) => {
+      TickState.currentTick = newTickState.currentTick;
+      TickState.tickSpeed = newTickState.tickSpeed;
+      update(() => TickState);
     }
   }
 }

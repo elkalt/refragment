@@ -1,16 +1,16 @@
 <script lang="ts">
   import '$lib/styles/app.scss'
+  import { TickManager } from '$lib/stores/tick-manager';
+  import { ResourcesStore } from '$lib/stores/resources-store';
+  import { GeneratorStore } from '$lib/stores/generator-store';
+  import { FabricatorStore } from '$lib/stores/fabricator-store';
   import RfResourceList from '$lib/components/generic/rf-resource-list.svelte';
   import Fabrication from '$lib/components/fabrication.svelte';
   import ControlRoom from '$lib/components/control-room.svelte';
   import PowerGeneration from '$lib/components/power-generation.svelte';
   import Config from '$lib/components/config.svelte';
-  import { TickManager } from '$lib/stores/tick-manager';
-  import { ResourcesStore } from '$lib/stores/resources-store';
-  import { GeneratorStore } from '$lib/stores/generator-store';
-  import { FabricatorStore } from '$lib/stores/fabricator-store';
   
-  let modules = [
+  const modules = [
     "config",
     "Power Generation",
     "Control Room",

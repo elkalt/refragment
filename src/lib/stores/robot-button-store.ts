@@ -1,39 +1,18 @@
 import { RobotButtons } from "$lib/definitions/robot-buttons";
-import { writable } from "svelte/store";
+import { createButtonStore } from "./generic/button-store";
 import { ResourcesStore } from "./resources-store";
 import { RobotStore } from "./robot-store";
 
 function createRobotButtonStore() {
-  let {subscribe, update} = writable(RobotButtons);
+  let {subscribe, dump, overwrite, unlock, use, tickUpdate} = createButtonStore(RobotButtons, [ResourcesStore], [RobotStore]);
 
   return {
     subscribe,
-    unlock: (robotButtonName: string) => {
-      let robotButton = RobotButtons.get(robotButtonName);
-      if (!robotButton) throw new Error("Resource does not exist: " + robotButtonName);
-
-      robotButton!.unlocked = true;
-      update(() => RobotButtons);
-    },
-
-    use: (robotButtonName: string) => {
-      let robotButton = RobotButtons.get(robotButtonName);
-      
-      if (robotButton) {
-        for (let input of robotButton.inputs) {
-          if (input.input === "Time") {
-            robotButton.disabled = true;
-            robotButton.cooldown = input.amount;
-            update(() => RobotButtons);
-          } else {
-            ResourcesStore.decrement(input.input, input.amount);
-          }
-        }
-        RobotStore.increment(robotButtonName, 1);
-      } else {
-        throw new Error("Robot does not exist: " + robotButtonName);
-      }
-    },
+    dump,
+    overwrite,
+    unlock,
+    use,
+    tickUpdate,
 
     getSustainInfo: (robotButtonName: string) => {
       let robotResource = RobotButtons.get(robotButtonName);

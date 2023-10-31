@@ -1,8 +1,8 @@
 import type { ButtonData } from "$lib/interfaces/button-data";
 import type { ResourceStore } from "./resource-store";
-import { writable } from "svelte/store";
+import { createStore, type Store } from "./store";
 
-export interface ButtonStore {
+export interface ButtonStore extends Store {
   subscribe: (run: (value: Map<string, ButtonData>) => void, invalidate?: (value?: Map<string, ButtonData>) => void) => () => void;
   unlock: (resourceButtonName: string) => void;
   use: (resourceName: string) => void;
@@ -14,10 +14,13 @@ export function createButtonStore(
   inputStores: ResourceStore[],
   outputStores: ResourceStore[])
 {
-  let {subscribe, update} = writable(resourceButtons);
+  let {subscribe, update, dump, overwrite} = createStore(resourceButtons);
 
   return {
     subscribe,
+    update,
+    dump,
+    overwrite,
     unlock: (resourceButtonName: string) => {
       let resourceButton = resourceButtons.get(resourceButtonName);
       if (!resourceButton) throw new Error("Button does not exist: " + resourceButtonName);
@@ -65,6 +68,6 @@ export function createButtonStore(
         }
       }
       update(() => resourceButtons);
-    }
+    },
   }
 }

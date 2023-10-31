@@ -1,17 +1,19 @@
-import { writable } from "svelte/store";
 import { Robots } from "$lib/definitions/robots";
 import { RobotButtonStore } from "./robot-button-store";
 import { TickManager } from "./tick-manager";
 import { ResourcesStore } from "./resources-store";
-
-// TODO: Refactor this to be a structure that expires after a certain amount of time
-// (or something else that works with the new generic stores)
+import { createResourceStore } from "./generic/resource-store";
 
 function createRobotStore() {
-  let {subscribe, update} = writable(Robots);
+  let {subscribe, update, dump, overwrite, getAmount, contains} = createResourceStore(Robots);
 
   return {
     subscribe,
+    update,
+    dump,
+    overwrite,
+    getAmount,
+    contains,
     increment: (robotName: string, amount: number) => {
       let robot = Robots.get(robotName);
       if (!robot) throw new Error("Generator does not exist: " + robotName);
@@ -46,7 +48,7 @@ function createRobotStore() {
         }
       }
       update(() => Robots);
-    }
+    },
   }
 }
 

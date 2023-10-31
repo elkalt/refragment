@@ -1,9 +1,10 @@
 import type { StructureListData } from "$lib/interfaces/structure-list-data";
 import type { ResourceStore } from "./resource-store";
+import { createStore, type Store } from "./store";
 import { TickManager } from "../tick-manager";
 import { writable } from "svelte/store";
 
-export interface StructureStore {
+export interface StructureStore extends Store {
   subscribe: (run: (value: Map<string, StructureListData>) => void, invalidate?: (value?: Map<string, StructureListData>) => void) => () => void;
   increment: (structureName: string, amount: number) => void;
   decrement: (structureName: string, amount: number) => void;
@@ -16,7 +17,7 @@ export function createStructureStore(
   inputStores: ResourceStore[],
   outputStores: ResourceStore[])
 {
-  let {subscribe, update} = writable(StructureListData);
+  let {subscribe, update, overwrite, dump} = createStore(StructureListData);
 
   function inputsSatisfied(inputs: {input: string, amount: number}[]) {
     for (let inputStore of inputStores) {  
@@ -29,6 +30,9 @@ export function createStructureStore(
 
   return {
     subscribe,
+    update,
+    overwrite,
+    dump,
     increment: (structureName: string, amount: number) => {
       let structure = StructureListData.get(structureName);
       if (!structure) throw new Error("structure does not exist: " + structureName);
@@ -41,6 +45,7 @@ export function createStructureStore(
       StructureData.decrement(structure.structure, toPush);
       update(() => StructureListData);
     },
+
     decrement: (structureName: string, amount: number) => {
       let structure = StructureListData.get(structureName);
       if (!structure) throw new Error("Structure does not exist: " + structureName);
@@ -52,6 +57,7 @@ export function createStructureStore(
       StructureData.increment(structure.structure, toPop);
       update(() => StructureListData);
     },
+
     tickUpdate: (currentTick: number) => {
       for (let [structureName, structure] of StructureListData) {
         for (let startTick of structure.created) {
