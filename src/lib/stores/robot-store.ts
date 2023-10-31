@@ -2,7 +2,11 @@ import { Robots } from "$lib/definitions/robots";
 import { RobotButtonStore } from "./robot-button-store";
 import { TickManager } from "./tick-manager";
 import { ResourcesStore } from "./resources-store";
-import { createResourceStore } from "./generic/resource-store";
+import { createResourceStore, type ResourceStore } from "./generic/resource-store";
+
+export interface RobotStore extends ResourceStore {
+  tickUpdate: (currentTick: number) => void
+}
 
 function createRobotStore() {
   let {subscribe, update, dump, overwrite, getAmount, contains} = createResourceStore(Robots);
