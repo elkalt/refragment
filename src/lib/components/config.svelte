@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { ResourcesStore } from "$lib/stores/resources-store";
   import { currentStateAsB64, B64ToCurrentState } from "$lib/scripts/save-parser";
 
   let exportText = "Export Save";

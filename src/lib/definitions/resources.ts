@@ -9,8 +9,8 @@ export enum ResourceEnum {
 }
 
 export let Resources: Map<string, Resource> = new Map([
-  [ResourceEnum.Energy, {unlocked: true, amount: 5}],
+  [ResourceEnum.Energy, {unlocked: true, amount: 0}],
   [ResourceEnum.Coal, {unlocked: true, amount: 0}],
   [ResourceEnum.IronOre, {unlocked: true, amount: 0}],
-  [ResourceEnum.Iron, {unlocked: true, amount: 5}],
+  [ResourceEnum.Iron, {unlocked: true, amount: 0}],
 ]);
