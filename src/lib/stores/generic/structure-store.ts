@@ -16,7 +16,7 @@ export function createStructureStore(
   inputStores: ResourceStore[],
   outputStores: ResourceStore[])
 {
-  let {subscribe, update, overwrite, dump} = createStore(StructureListData);
+  let {subscribe, update, overwrite} = createStore(StructureListData);
 
   function inputsSatisfied(inputs: {input: string, amount: number}[]) {
     for (let inputStore of inputStores) {  
@@ -31,7 +31,6 @@ export function createStructureStore(
     subscribe,
     update,
     overwrite,
-    dump,
     increment: (structureName: string, amount: number) => {
       let structure = StructureListData.get(structureName);
       if (!structure) throw new Error("structure does not exist: " + structureName);

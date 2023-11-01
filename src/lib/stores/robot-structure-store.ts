@@ -4,7 +4,7 @@ import { ResourcesStore } from "./resources-store";
 import { RobotStore } from "./robot-store";
 
 function createRobotStructureStore() {
-  let {subscribe, update, dump, overwrite, increment, decrement} = createStructureStore(
+  let {subscribe, update, overwrite, increment, decrement} = createStructureStore(
     RobotStructureData,
     RobotStore,
     [],
@@ -14,7 +14,6 @@ function createRobotStructureStore() {
   return {
     subscribe,
     update,
-    dump,
     overwrite,
     increment,
     decrement,

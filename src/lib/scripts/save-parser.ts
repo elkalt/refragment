@@ -44,18 +44,28 @@ function objToMap(obj: Object): Map<string, any> {
   return map
 }
 
-export function currentStateAsB64(): string {
+export function currentStateAsB64(): Promise<string> {
   let save: Object = {};
+  let promises = [];
+
   for (let [storeName, store] of Object.entries(stores)) {
-    let storeValue = store.dump();
-    if (storeValue instanceof Map) {
-      save[storeName] = mapToObj(storeValue);
-    } else {
-      save[storeName] = storeValue;
-    }
+    let promise = new Promise<void>((resolve) => {
+      store.subscribe((value) => {
+        if (value instanceof Map) {
+          save[storeName] = mapToObj(value);
+        } else {
+          save[storeName] = value;
+        }
+        resolve();
+      });
+    });
+    promises.push(promise);
   }
-  let base64String = btoa(JSON.stringify(save));
-  return base64String;
+
+  return Promise.all(promises).then(() => {
+    let base64String = btoa(JSON.stringify(save));
+    return base64String;
+  });
 }
 
 export function B64ToCurrentState(base64String: string): void {

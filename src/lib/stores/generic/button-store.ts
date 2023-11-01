@@ -14,12 +14,11 @@ export function createButtonStore(
   inputStores: ResourceStore[],
   outputStores: ResourceStore[])
 {
-  let {subscribe, update, dump, overwrite} = createStore(resourceButtons);
+  let {subscribe, update, overwrite} = createStore(resourceButtons);
 
   return {
     subscribe,
     update,
-    dump,
     overwrite,
     unlock: (resourceButtonName: string) => {
       let resourceButton = resourceButtons.get(resourceButtonName);

@@ -4,11 +4,13 @@
   import { ResourcesStore } from '$lib/stores/resources-store';
   import { GeneratorStore } from '$lib/stores/generator-store';
   import { FabricatorStore } from '$lib/stores/fabricator-store';
+  import { B64ToCurrentState, currentStateAsB64 } from '$lib/scripts/save-parser';
   import RfResourceList from '$lib/components/generic/rf-resource-list.svelte';
   import Fabrication from '$lib/components/fabrication.svelte';
   import ControlRoom from '$lib/components/control-room.svelte';
   import PowerGeneration from '$lib/components/power-generation.svelte';
   import Config from '$lib/components/config.svelte';
+    import { onDestroy, onMount } from 'svelte';
   
   const modules = [
     "config",
@@ -16,11 +18,33 @@
     "Control Room",
     "Fabrication",
   ]
-
   let currentModule = "Control Room"
+
+  // TODO: Load save from localStorage on page load
+  onMount(() => {
+    if (typeof window === "undefined") return;
+    let saveState = localStorage.getItem("saveState");
+    if (saveState) B64ToCurrentState(saveState);
+  });
+  
+  onDestroy(() => {
+    if (typeof window === "undefined") return;
+    currentStateAsB64().then(B64String => {
+      localStorage.setItem("saveState", B64String);
+      console.log("saved")
+    });
+  });
+
   setInterval(() => {
     TickManager.updateTick();
   }, $TickManager.tickSpeed);
+
+  setInterval(() => {
+    if (typeof window === "undefined") return;
+    currentStateAsB64().then(B64String => {
+      localStorage.setItem("saveState", B64String);
+    });
+  }, 60 * 100);
 </script>
 
 <div class="header">

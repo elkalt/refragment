@@ -10,17 +10,16 @@ export interface ResourceStore extends Store {
 }
 
 export function createResourceStore(Resources: Map<string,Resource>, ) {
-  let {subscribe, update, overwrite, dump} = createStore(Resources);
+  let {subscribe, update, overwrite} = createStore(Resources);
 
   return {
     subscribe,
     update,
     overwrite,
-    dump,
     increment: (resourceName: string, amount: number) => {
       let resource = Resources.get(resourceName);
       if (!resource) throw new Error("Resource does not exist: " + resourceName);
-      
+      console.log(resource!.amount)
       resource!.amount += amount;
       update(() => Resources);
     },

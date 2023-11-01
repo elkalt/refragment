@@ -5,7 +5,7 @@ import { RobotStore } from "./robot-store";
 import { RobotStructureStore } from "./robot-structure-store";
 
 function createRobotButtonStore() {
-  let {subscribe, update, dump, overwrite, unlock, use, tickUpdate} = createButtonStore(
+  let {subscribe, update, overwrite, unlock, use, tickUpdate} = createButtonStore(
     RobotButtons,
     [ResourcesStore],
     [RobotStore]
@@ -14,7 +14,6 @@ function createRobotButtonStore() {
   return {
     subscribe,
     update,
-    dump,
     overwrite,
     unlock,
     tickUpdate,

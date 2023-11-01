@@ -1,7 +1,6 @@
 import { writable } from "svelte/store";
 import { ResourcesButtonStore } from "./resources-button-store";
 import { TickState } from "$lib/definitions/tick-state";
-import { RobotStore } from "./robot-store";
 import { GeneratorStructureStore } from "./generator-structure-store";
 import { FabricatorStructureStore } from "./fabricator-structure-store";
 import { RobotStructureStore } from "./robot-structure-store";
