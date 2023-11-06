@@ -20,7 +20,6 @@
   ]
   let currentModule = "Control Room"
 
-  // TODO: Load save from localStorage on page load
   onMount(() => {
     if (typeof window === "undefined") return;
     let saveState = localStorage.getItem("saveState");
@@ -36,7 +35,7 @@
     currentStateAsB64().then(B64String => {
       localStorage.setItem("saveState", B64String);
     });
-  }, 10 * 100);
+  }, 100);
 </script>
 
 <div class="header">

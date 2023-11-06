@@ -26,7 +26,7 @@ export let FabricatorStructureData: Map<string, StructureListData> = new Map([
       structure: FabricatorEnum.Miner,
       created: [],
       inputs: [{input: ResourceEnum.Energy, amount: 1}],
-      outputs: [{output: ResourceEnum.Iron, amount: 1}],
+      outputs: [{output: ResourceEnum.IronOre, amount: 1}],
       interval: 150
     }
   ]
