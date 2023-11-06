@@ -26,14 +26,6 @@
     let saveState = localStorage.getItem("saveState");
     if (saveState) B64ToCurrentState(saveState);
   });
-  
-  onDestroy(() => {
-    if (typeof window === "undefined") return;
-    currentStateAsB64().then(B64String => {
-      localStorage.setItem("saveState", B64String);
-      console.log("saved")
-    });
-  });
 
   setInterval(() => {
     TickManager.updateTick();
@@ -44,7 +36,7 @@
     currentStateAsB64().then(B64String => {
       localStorage.setItem("saveState", B64String);
     });
-  }, 60 * 100);
+  }, 10 * 100);
 </script>
 
 <div class="header">

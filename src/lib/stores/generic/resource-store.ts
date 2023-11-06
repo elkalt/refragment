@@ -9,7 +9,7 @@ export interface ResourceStore extends Store {
   contains: (resourceName: string) => boolean;
 }
 
-export function createResourceStore(Resources: Map<string,Resource>, ) {
+export function createResourceStore(Resources: Map<string,Resource>) {
   let {subscribe, update, overwrite} = createStore(Resources);
 
   return {
@@ -19,7 +19,6 @@ export function createResourceStore(Resources: Map<string,Resource>, ) {
     increment: (resourceName: string, amount: number) => {
       let resource = Resources.get(resourceName);
       if (!resource) throw new Error("Resource does not exist: " + resourceName);
-      console.log(resource!.amount)
       resource!.amount += amount;
       update(() => Resources);
     },

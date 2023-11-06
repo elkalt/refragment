@@ -14,9 +14,12 @@ export function createStore(map: Map<string, any>): Store {
     update,
 
     overwrite: (newResources: Map<string, any>) => {
-      update(() => newResources);
-      console.log(map.get("Energy"))
-      console.log(newResources.get("Energy"))
-    }
+      update((oldResources: Map<string, any>) => {
+        for (let [k, v] of newResources) {
+          oldResources.set(k, v);
+        }
+        return oldResources;
+      });
+    },
   };
 }

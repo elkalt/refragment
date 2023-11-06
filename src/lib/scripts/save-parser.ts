@@ -70,11 +70,13 @@ export function currentStateAsB64(): Promise<string> {
 
 export function B64ToCurrentState(base64String: string): void {
   let save = JSON.parse(atob(base64String));
+  let count = 0;
   for (let [storeName, store] of Object.entries(stores)) {
     if (storeName === "TickManager") {
       store.overwrite(save[storeName]);
     } else {
       store.overwrite(objToMap(save[storeName]));
     }
+    count++;
   }
 }

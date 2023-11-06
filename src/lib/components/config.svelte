@@ -4,7 +4,7 @@
   let exportText = "Export Save";
 
   async function exportSave() {
-    await navigator.clipboard.writeText(currentStateAsB64());
+    await navigator.clipboard.writeText(await currentStateAsB64());
 
     exportText = "Copied to clipboard!";
     setTimeout(() => {
