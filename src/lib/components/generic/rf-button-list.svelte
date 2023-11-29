@@ -35,17 +35,17 @@
 {/if}
 <div class="button-container" style:grid-template-columns="repeat({columns}, 1fr)">
   {#each buttonStore.keys() as name}
-    {@const resourceData = buttonStore.get(name)}
-    {#if resourceData && resourceData.unlocked}
+    {@const ButtonData = buttonStore.get(name)}
+    {#if ButtonData && ButtonData.unlocked}
       <Button
         on:click={() => dispatch("click", {name: name})}
         name={name}
-        tooltip={resourceData.description}
-        inputs={resourceData.inputs}
-        products={resourceData.outputs}
-        cooldown={resourceData.cooldown}
-        sustain={resourceData.sustain}
-        disabled={resourceData.disabled || resourceInputSatisfaction.get(name)?.valueOf() === false}
+        tooltip={ButtonData.description}
+        inputs={ButtonData.inputs}
+        products={ButtonData.outputs}
+        cooldown={ButtonData.cooldown}
+        sustain={ButtonData.sustain}
+        disabled={ButtonData.disabled || resourceInputSatisfaction.get(name)?.valueOf() === false}
         />
     {/if}
   {/each}

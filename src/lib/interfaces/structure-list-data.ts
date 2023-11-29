@@ -5,4 +5,5 @@ export interface StructureListData {
   inputs: {input: string, amount: number}[];
   outputs: {output: string, amount: number}[];
   interval: number;
+  totalTime?: number;
 }

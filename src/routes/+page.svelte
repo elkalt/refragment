@@ -1,33 +1,67 @@
 <script lang="ts">
   import '$lib/styles/app.scss'
-  import RfResourceList from '$lib/components/generic/rf-resource-list.svelte';
-  import Fabrication from '$lib/components/fabrication.svelte';
-  import ControlRoom from '$lib/components/control-room.svelte';
-  import PowerGeneration from '$lib/components/power-generation.svelte';
   import { TickManager } from '$lib/stores/tick-manager';
   import { ResourcesStore } from '$lib/stores/resources-store';
   import { GeneratorStore } from '$lib/stores/generator-store';
   import { FabricatorStore } from '$lib/stores/fabricator-store';
+  import { B64ToCurrentState, currentStateAsB64 } from '$lib/scripts/save-parser';
+  import RfResourceList from '$lib/components/generic/rf-resource-list.svelte';
+  import Fabrication from '$lib/components/fabrication.svelte';
+  import ControlRoom from '$lib/components/control-room.svelte';
+  import PowerGeneration from '$lib/components/power-generation.svelte';
+  import Config from '$lib/components/config.svelte';
+  import { onMount } from 'svelte';
   
-  let modules = [
+  const modules = [
+    "config",
     "Power Generation",
     "Control Room",
     "Fabrication",
   ]
+  let currentModule = "config"
 
-  let currentModule = "Control Room"
+  onMount(() => {
+    if (typeof window === "undefined") return;
+    let saveState = localStorage.getItem("saveState");
+    if (saveState) B64ToCurrentState(saveState);
+  });
+
   setInterval(() => {
     TickManager.updateTick();
   }, $TickManager.tickSpeed);
+
+  setInterval(() => {
+    if (typeof window === "undefined") return;
+    currentStateAsB64().then(B64String => {
+      localStorage.setItem("saveState", B64String);
+    });
+  }, 100);
 </script>
 
-<div class=header>
-  {#each modules as module}
-    <button class="module" on:click={() => currentModule = module}>{ module }</button>
-  {/each}
+<div class="header">
+  <div class="module-container">
+    {#each modules as module}
+      {#if module !== "config"}
+        <button
+          style:border-bottom={module === currentModule ? "2px solid var(--accent-light)" : ""}
+          on:click={() => currentModule = module}>
+          { module }
+        </button>
+      {/if}
+    {/each}
+  </div>
+  <div class="settings">
+    <button
+      on:click={() => currentModule = "config"}>
+      <span class="material-symbols-outlined"
+        style:font-weight={currentModule === "config" ? "700" : ""}>
+        settings
+      </span>
+    </button>
+  </div>
 </div>
 
-<div class='content-container'>
+<div class="content-container">
   <div class="resources">
     <RfResourceList
       title="Resources"
@@ -42,6 +76,8 @@
       <Fabrication />
     {:else if currentModule === "Power Generation"}
       <PowerGeneration />
+    {:else if currentModule === "config"}
+      <Config />
     {/if}
   </div>
 
@@ -66,18 +102,40 @@
 .header {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
   padding-top: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--accent);
 
-  .module {
-    width: auto;
-    font-size: 1.1rem;
-    border: 0px;
-    border-bottom: 1px solid var(--accent);
+  .module-container {
+    flex-grow: 1;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+  
+    button {
+      width: auto;
+      font-size: 1.1rem;
+      border: 0px;
+      border-bottom: 1px solid var(--accent);
+
+      &:hover {
+        border-bottom: 1px dotted var(--accent-light);
+      }
+    }
+  }
+
+  .settings {
+    flex-grow: 0;
+    flex-shrink: 1;
+    margin-right: 1rem;
     cursor: pointer;
+
+    button {
+      border: 0px;
+      font-size: 1.1rem;
+    }
   }
 }
 
