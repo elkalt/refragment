@@ -10,13 +10,6 @@ function createTickManager() {
 
   return {
     subscribe,
-    changeTickSpeed: (tickSpeed: number) => {
-      update((tickStore) => {
-        tickStore.tickSpeed = tickSpeed;
-        return tickStore;
-      });
-    },
-
     convertTicksToSeconds: (ticks: number) => {
       return ticks / (1000 / TickState.tickSpeed);
     },

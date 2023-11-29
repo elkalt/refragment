@@ -24,9 +24,6 @@
   <button on:click={() => importSave()}>Import Save</button>
 </div>
 
-<h2>Settings</h2>
-<input type="range" min="0" max="500">
-
 <style lang="scss">
 @import '$lib/styles/variables.scss';
 button {
@@ -40,24 +37,5 @@ button {
   margin-top: 1rem;
   margin-bottom: 1rem;
   justify-content: center;
-}
-
-input {
-  width: 100%;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  border: 1px solid var(--accent);
-  border-radius: 0.5rem;
-  background-color: var(--background);
-  color: var(--text);
-  font-size: 1.1rem;
-  font-family: var(--font);
-  outline: none;
-  transition: border 0.2s ease-in-out;
-
-  &:hover {
-    border: 1px solid var(--accent-light);
-  }
 }
 </style>
