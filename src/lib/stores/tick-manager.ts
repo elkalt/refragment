@@ -10,7 +10,7 @@ function createTickManager() {
 
   return {
     subscribe,
-    setTickSpeed: (tickSpeed: number) => {
+    changeTickSpeed: (tickSpeed: number) => {
       update((tickStore) => {
         tickStore.tickSpeed = tickSpeed;
         return tickStore;

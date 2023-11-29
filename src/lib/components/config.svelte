@@ -41,4 +41,23 @@ button {
   margin-bottom: 1rem;
   justify-content: center;
 }
+
+input {
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.5rem;
+  background-color: var(--background);
+  color: var(--text);
+  font-size: 1.1rem;
+  font-family: var(--font);
+  outline: none;
+  transition: border 0.2s ease-in-out;
+
+  &:hover {
+    border: 1px solid var(--accent-light);
+  }
+}
 </style>

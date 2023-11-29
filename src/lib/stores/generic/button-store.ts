@@ -14,12 +14,24 @@ export function createButtonStore(
   inputStores: ResourceStore[],
   outputStores: ResourceStore[])
 {
-  let {subscribe, update, overwrite} = createStore(resourceButtons);
+  let {subscribe, update} = createStore(resourceButtons);
 
   return {
     subscribe,
     update,
-    overwrite,
+    overwrite: (newButtons: Map<string, ButtonData>) => {
+      update((oldButtons: Map<string, ButtonData>) => {
+        for (let [k, v] of newButtons) {
+          if (oldButtons.has(k)) {
+            v.disabled = oldButtons.get(k)!.disabled;
+            v.unlocked = oldButtons.get(k)!.unlocked;
+            v.cooldown = oldButtons.get(k)!.cooldown;
+          }
+          oldButtons.set(k, v);
+        }
+        return oldButtons;
+      });
+    },
     unlock: (resourceButtonName: string) => {
       let resourceButton = resourceButtons.get(resourceButtonName);
       if (!resourceButton) throw new Error("Button does not exist: " + resourceButtonName);

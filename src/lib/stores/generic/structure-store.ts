@@ -30,7 +30,18 @@ export function createStructureStore(
   return {
     subscribe,
     update,
-    overwrite,
+    overwrite: (newStructures: Map<string, StructureListData>) => {
+      update((oldStructures: Map<string, StructureListData>) => {
+        for (let [k, v] of newStructures) {
+          if (oldStructures.has(k)) {
+            v.created = oldStructures.get(k)!.created;
+            v.unlocked = oldStructures.get(k)!.unlocked;
+          }
+          oldStructures.set(k, v);
+        }
+        return oldStructures;
+      });
+    },
     increment: (structureName: string, amount: number) => {
       let structure = StructureListData.get(structureName);
       if (!structure) throw new Error("structure does not exist: " + structureName);
