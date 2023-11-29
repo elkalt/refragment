@@ -10,7 +10,7 @@
   import ControlRoom from '$lib/components/control-room.svelte';
   import PowerGeneration from '$lib/components/power-generation.svelte';
   import Config from '$lib/components/config.svelte';
-    import { onDestroy, onMount } from 'svelte';
+  import { onMount } from 'svelte';
   
   const modules = [
     "config",
@@ -119,6 +119,10 @@
       font-size: 1.1rem;
       border: 0px;
       border-bottom: 1px solid var(--accent);
+
+      &:hover {
+        border-bottom: 1px dotted var(--accent-light);
+      }
     }
   }
 
