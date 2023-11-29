@@ -18,7 +18,7 @@
     "Control Room",
     "Fabrication",
   ]
-  let currentModule = "config"
+  let currentModule = "Control Room";
 
   onMount(() => {
     if (typeof window === "undefined") return;
