@@ -28,7 +28,7 @@
 
   setInterval(() => {
     TickManager.updateTick();
-  }, $TickManager.tickSpeed);
+  }, 1000 / $TickManager.tps);
 
   setInterval(() => {
     if (typeof window === "undefined") return;

@@ -1,1 +1,1 @@
-export let TickState = {currentTick: 0, tickSpeed: 50};
+export let TickState = {currentTick: 0, tps: 20};

@@ -11,7 +11,7 @@ function createTickManager() {
   return {
     subscribe,
     convertTicksToSeconds: (ticks: number) => {
-      return ticks / (1000 / TickState.tickSpeed);
+      return ticks / TickState.tps;
     },
 
     getCurrentTick: () => {
@@ -36,7 +36,7 @@ function createTickManager() {
 
     overwrite: (newTickState: any) => {
       TickState.currentTick = newTickState.currentTick;
-      TickState.tickSpeed = newTickState.tickSpeed;
+      TickState.tps = 20;
       update(() => TickState);
     }
   }
